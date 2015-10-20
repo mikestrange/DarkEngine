@@ -51,15 +51,17 @@ package org.sdk.display.com.scroll
 			_mask.graphics.beginFill(0,.3);
 			_mask.graphics.drawRect(0, 0, wide, heig);
 			_mask.graphics.endFill();
-			//getLoader().mask = _mask;
-			//清理
-			_itemMap = new MapInteger;
-			if (_loader) {
-				_loader.removeFromParent();
-				_loader = null;
-			}
+			getLoader().mask = _mask;
 			//
 			addListener();
+		}
+		
+		public function cleanContent():void
+		{
+			_itemMap = null;
+			if(_loader){
+				_loader.removeEveryChildren();
+			}
 		}
 		
 		private function addListener():void
@@ -233,6 +235,7 @@ package org.sdk.display.com.scroll
 		
 		private function getMap():MapInteger
 		{
+			if(null == _itemMap) _itemMap = new MapInteger();
 			return _itemMap;
 		}
 		

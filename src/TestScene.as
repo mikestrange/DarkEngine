@@ -33,12 +33,7 @@ package
 			this.addChild(g2);
 			DisplayEffects.pervasion(a);
 			//
-			ticker.step(1000, called, 0);
-			var table:TableView = new TableView;
-			table.setSize(100,200);
-			table.resetting(10,spaceHandler,rollHandler);
-			this.addNodeDisplay(table);
-			table.setPosition(100,100);
+			ticker.step(1000, called);
 		}
 		
 		private function spaceHandler(index:int):int
@@ -61,7 +56,12 @@ package
 		
 		private function called():void
 		{
-			trace("ticker")
+			var table:TableView = new TableView;
+			table.setSize(100,200);
+			table.resetting(10,spaceHandler,rollHandler);
+			this.addNodeDisplay(table);
+			table.setPosition(100,100);
+			table.setSize(200,200);
 		}
 		
 		//ends
