@@ -1,11 +1,14 @@
 package org.sdk.display.com 
 {
 	import flash.display.BitmapData;
+	
+	import org.sdk.display.DelegateDefined;
 	import org.sdk.display.core.KindMap;
 	import org.sdk.interfaces.IRefObject;
 	import org.sdk.load.DownLoader;
 	import org.sdk.load.LoadEvent;
 	import org.sdk.manager.member.RefObject;
+
 	/*
 	 * 不作为INode
 	 * */
@@ -41,6 +44,11 @@ package org.sdk.display.com
 			}else {
 				this.washRender(new RefObject(url, event.data));
 			}
+			
+			if(this.delegate)
+			{
+				this.delegate.applyHandler(DelegateDefined.IMAGE_COMPLETE,this);
+			}
 		}
 		
 		/*
@@ -49,6 +57,10 @@ package org.sdk.display.com
 		protected function onFailed(event:LoadEvent = null):void
 		{
 			this.unload();
+			if(this.delegate)
+			{
+				this.delegate.applyHandler(DelegateDefined.IMAGE_FAILED,this);
+			}
 		}
 		
 		/*

@@ -18,9 +18,17 @@ package org.sdk.interfaces
 		 * */
 		function removeByName(childName:String):DisplayObject;
 		/*
-		 * 取所有包含tag的子对象
+		 * 取一个包含tag的子对象
 		 * */
 		function getChildByTag(tag:int):INodeDisplay;
+		/*
+		* 取所有包含tag的子对象
+		* */
+		function getAllByTag(tag:int):Vector.<INodeDisplay>;
+		/*
+		 *移除tag
+		 * */
+		function removeByTag(tag:int, all:Boolean = true):void;
 		/*
 		 * 自身转换
 		 * */

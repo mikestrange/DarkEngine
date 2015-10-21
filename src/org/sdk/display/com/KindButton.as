@@ -1,6 +1,8 @@
 package org.sdk.display.com 
 {
 	import flash.events.MouseEvent;
+	
+	import org.sdk.display.DelegateDefined;
 	import org.sdk.display.core.KindMap;
 	import org.sdk.display.core.KindSprite;
 	import org.sdk.interfaces.INodeDisplay;
@@ -9,7 +11,7 @@ package org.sdk.display.com
 	/**
 	 * 按钮的基类
 	 */
-	public class BoxButton extends KindSprite 
+	public class KindButton extends KindSprite 
 	{
 		public static const NORMAL:String = "normal";
 		public static const OVER:String = "over";
@@ -22,7 +24,7 @@ package org.sdk.display.com
 		private var _isDown:Boolean;
 		private var _isLock:Boolean;
 		
-		public function BoxButton()
+		public function KindButton()
 		{
 			this.initialization();
 		}
@@ -97,12 +99,12 @@ package org.sdk.display.com
 		 * */
 		protected function onStatus(type:String):void
 		{
-			/*
+			
 			if (type == DOWN) setImage("btn_b_down");
 			if (type == NORMAL) setImage("btn_b_keep");
 			if (type == OVER) setImage("btn_b_over");
 			if (type == RELEASE) setImage("btn_b_keep");
-			*/
+			
 		}
 		
 		/*
@@ -110,7 +112,9 @@ package org.sdk.display.com
 		 * */
 		protected function onClickHandler():void
 		{
-			
+			if(this.delegate){
+				this.delegate.applyHandler(org.sdk.display.DelegateDefined.BUTTON_CLICK,this);
+			}
 		}
 		
 		/*

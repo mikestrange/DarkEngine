@@ -14,7 +14,7 @@ package
 	import flash.utils.ByteArray;
 	import flash.utils.getTimer;
 	import org.sdk.debug.Log;
-	import org.sdk.display.com.BoxButton;
+	import org.sdk.display.com.KindButton;
 	import org.sdk.display.core.KindSprite;
 	import org.sdk.display.com.Image;
 	import org.sdk.display.com.Image;
@@ -29,10 +29,8 @@ package
 	import org.sdk.load.QueueManager;
 	import org.sdk.utils.NumHover;
 	
-	/**
-	 * ...
-	 * @author Mike email:542540443@qq.com
-	 */
+	[SWF(width="750",height="600",backgroundColor="#D6E3F7",frameRate="60")]
+	
 	public class Main extends KindSprite 
 	{
 		public function Main():void 

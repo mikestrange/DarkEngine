@@ -76,14 +76,7 @@ package org.sdk.display.core
 		
 		public function eachChildrenHandler(handler:Function, tag:int = 0):void 
 		{
-			const list:Vector.<INodeDisplay> = new Vector.<INodeDisplay>;
-			for (var i:int = 0; i < this.numChildren; i++) {
-				const dis:DisplayObject = getChildAt(i);
-				if (isNodeDisplay(dis) && INodeDisplay(dis).isTag(tag)) 
-				{
-					list.push(dis as INodeDisplay);
-				}
-			}
+			const list:Vector.<INodeDisplay> = getAllByTag(tag);
 			//处理
 			for each(var node:INodeDisplay in list) 
 			{
@@ -133,6 +126,35 @@ package org.sdk.display.core
 		public function isTag(value:int):Boolean 
 		{
 			return _tag == value;
+		}
+		
+		public function getAllByTag(tag:int):Vector.<INodeDisplay>
+		{
+			const list:Vector.<INodeDisplay> = new Vector.<INodeDisplay>;
+			for (var i:int = 0; i < this.numChildren; i++) {
+				const dis:DisplayObject = getChildAt(i);
+				if (isNodeDisplay(dis) && INodeDisplay(dis).isTag(tag)) 
+				{
+					list.push(dis as INodeDisplay);
+				}
+			}
+			return list;
+		}
+			
+		public function removeByTag(tag:int, all:Boolean = true):void
+		{
+			const list:Vector.<INodeDisplay> = getAllByTag(tag);
+			if(list.length){
+				if(all){
+					for each(var node:INodeDisplay in list) 
+					{
+						node.removeFromParent();
+					}
+				}else{
+					//删除最顶层的
+					list.pop().removeFromParent();
+				}
+			}
 		}
 		
 		public function get convertDisplayObject():DisplayObject 

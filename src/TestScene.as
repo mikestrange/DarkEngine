@@ -1,16 +1,24 @@
 package  
 {
+	import com.greensock.TweenLite;
+	
 	import flash.text.TextField;
+	
+	import org.sdk.AppWork;
+	import org.sdk.display.BaseScene;
+	import org.sdk.display.DelegateDefined;
+	import org.sdk.display.com.Image;
+	import org.sdk.display.com.KindButton;
 	import org.sdk.display.com.interfaces.ITableViewDelegate;
 	import org.sdk.display.com.scroll.Cell;
 	import org.sdk.display.com.scroll.TableView;
-	import org.sdk.display.com.Image;
 	import org.sdk.display.core.KindMap;
-	import org.sdk.display.BaseScene;
 	import org.sdk.effects.DisplayEffects;
+	import org.sdk.interfaces.INodeDisplay;
 	import org.sdk.key.IKeyDelegate;
 	import org.sdk.key.KeyEvent;
 	import org.sdk.key.KeyManager;
+	import org.sdk.utils.display.TransformUtil;
 	
 	/**
 	 * ...
@@ -22,29 +30,31 @@ package
 		override public function onEnter(data:* = undefined):void 
 		{
 			super.onEnter(data);
-			var a:KindMap = new KindMap("btn_b_down");
-			a.setSize(a.width, a.height);
-			this.addChild(a.convertDisplayObject);
+			var mit:KindMap = new KindMap("btn_b_down");
+			mit.setSize(mit.width, mit.height);
+			this.addNodeDisplay(mit);
+			mit.setPosition(100,20);
 			//
-			var g:Image = new Image("http://passport.lagou.com/lp/images/position/souhu.png");
-			this.addChild(g);
-			var g1:Image = new Image("http://passport.lagou.com/lp/images/position/souhu.png");
-			g1.x = 100;
-			this.addChild(g1);
-			var g2:Image = new Image("http://passport.lagou.com/lp/images/position/souhu.png");
-			g2.x = 200;
-			this.addChild(g2);
-			DisplayEffects.pervasion(a);
+			const g2:Image = new Image("http://passport.lagou.com/lp/images/position/souhu.png");
+			g2.setTag(2);
+			g2.delegate = this;
+			g2.setPosition(100,100);
+			this.addNodeDisplay(g2);
+			//
+			var btn:KindButton = new KindButton();
+			btn.delegate = this;
+			this.addNodeDisplay(btn);
 			//
 			scheduler.applyMethod(called, 100);
 			//
 			KeyManager.setEnabled(true);
 			KeyManager.addKeyListener(this);
+			//
 		}
 		
 		public function rowHandler():int
 		{
-			return 30;
+			return 300;
 		}
 		
 		public function spaceHandler(index:int):int
@@ -68,10 +78,25 @@ package
 		private function called():void
 		{
 			var table:TableView = new TableView(100, 300);
+			table.setTag(10);
 			table.setPosition(100,100);
 			table.delegate = this;
 			table.reallocated();
 			this.addNodeDisplay(table);
+		}
+		
+		override public function applyHandler(notice:String, target:Object=null):void
+		{
+			if(notice == DelegateDefined.BUTTON_CLICK)
+			{
+				trace("click");
+			}
+			if(notice == DelegateDefined.IMAGE_COMPLETE)
+			{
+				trace("click");
+				var g:INodeDisplay = this.getChildByTag(2);
+				this.setChildIndex(g.convertDisplayObject,this.numChildren-1);
+			}
 		}
 		
 		public function onKeyDownHandler(code:uint):void
