@@ -17,16 +17,12 @@ package org.sdk.reuse
 			return _ins || (_ins = new RefManager);
 		}
 		
-		private static const NONE:int = 0;
-		
 		//对象引用
 		private var refMap:Dictionary;
-		private var _leng:int;
 		
 		public function RefManager() 
 		{
 			refMap = new Dictionary;
-			_leng = NONE;
 		}
 		
 		public function addRef(ref:IRefObject):IRefObject
@@ -49,14 +45,14 @@ package org.sdk.reuse
 		public function kill(name:String):void
 		{
 			const ref:IRefObject = getRef(name);
-			if (ref) ref.undepute();
+			if (ref) ref.finality();
 		}
 		
 		public function clean():void
 		{
 			for each(var ref:IRefObject in refMap) 
 			{
-				ref.undepute();
+				ref.finality();
 			}
 		}
 		
@@ -69,7 +65,8 @@ package org.sdk.reuse
 			}
 		}
 		
-		//
+		/*应用到渲染器
+		 * */
 		public function applyTo(target:IRender, name:String, data:Object = null):Boolean
 		{
 			var ref:IRefObject = getRef(name);
@@ -87,12 +84,15 @@ package org.sdk.reuse
 		 * */
 		public function toString():String
 		{
-			var chat:String = " CacheManager start->" + _leng;
+			var chat:String = " RefManager start->";
 			var name:String;
+			var ref:IRefObject;
+			var index:int = 0;
 			for (name in refMap) 
 			{
-				const ref:IRefObject = getRef(name);
-				chat += "\nname = " + name + ", target = " + ref.target + ", len = " + ref.refCount;
+				ref = getRef(name);
+				chat += "\n "+index+"->name = " + name + ", target = " + ref.target + ", len = " + ref.refCount;
+				index++;
 			}
 			chat += "\n end -<";
 			return chat;

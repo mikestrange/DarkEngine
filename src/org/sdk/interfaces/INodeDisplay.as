@@ -1,6 +1,7 @@
 package org.sdk.interfaces 
 {
 	import flash.display.DisplayObject;
+	import flash.display.DisplayObjectContainer;
 	
 	/**
 	 * ...
@@ -41,14 +42,6 @@ package org.sdk.interfaces
 		 * */
 		function isTag(value:int):Boolean;
 		/*
-		 * 显示 visible = true
-		 * */
-		function show():void;
-		/*
-		 * 隐藏 visible = false
-		 * */
-		function hide():void;
-		/*
 		 * 自身转换
 		 * */
 		function get convertDisplayObject():DisplayObject;
@@ -56,6 +49,10 @@ package org.sdk.interfaces
 		 * 移除
 		 * */
 		function removeFromParent(value:Boolean = true):void;
+		/*
+		* 添加到
+		* */
+		function addTo(father:DisplayObjectContainer,floor:int=-1):INodeDisplay;
 		/*
 		 * 计时器
 		 * */

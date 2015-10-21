@@ -1,10 +1,13 @@
 package org.sdk.reuse 
 {
+	import flash.display.BitmapData;
+	
+	import org.sdk.display.QuickHandler;
 	import org.sdk.interfaces.IObject;
 	import org.sdk.interfaces.IRefObject;
 
 	/**
-	 * 缓存的对象，默认不保存
+	 * 缓存的对象，默认保存
 	 * @author Mike email:542540443@qq.com
 	 */
 	public class RefObject implements IRefObject 
@@ -21,16 +24,16 @@ package org.sdk.reuse
 			this.bind();
 		}
 		
-		/* INTERFACE org.sdk.interfaces.IDevelop */
-		private function bind():void
+		protected function bind():void
 		{
 			RefManager.getInstance().addRef(this);
 		}
 		
+		/* INTERFACE org.sdk.interfaces.IDevelop */
 		public function release():void
 		{
 			_count--;
-			if (_count == 0) undepute();
+			if (_count <= 0) finality();
 		} 
 		
 		public function ration():void
@@ -58,33 +61,13 @@ package org.sdk.reuse
 			return _name;
 		}
 		
-		/* INTERFACE org.sdk.interfaces.IObject */
-		public function get delegate():IObject
-		{
-			return _delegate;
-		}
-		
-		public function set delegate(value:IObject):void	
-		{
-			_delegate = value;
-		}
-		
-		public function applyHandler(notice:String, target:Object = null):void
-		{
-			
-			
-		}
-		
-		//摧毁-释放调用
-		public function undepute():void
+		public function finality():void
 		{
 			RefManager.getInstance().remove(_name);
-		}
-		
-		//唯一名称
-		public function getCodeName():String
-		{
-			return _name;
+			if(_target is BitmapData){
+				QuickHandler.cleanupBitmapdata(_target);
+				_target = null;
+			}
 		}
 		
 		//end

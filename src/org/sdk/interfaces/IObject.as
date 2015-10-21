@@ -6,14 +6,14 @@ package org.sdk.interfaces
 		/*
 		* 委托
 		* */
-		function get delegate():IObject;
+		function get delegate():IDelegate;
 		/*
 		 * 设置委托
 		 * */
-		function set delegate(value:IObject):void;
+		function set delegate(value:IDelegate):void;
 		/*
-		 * 事件处理
-		 * */
+		* 处理应急事件
+		* */
 		function applyHandler(notice:String, target:Object = null):void;
 		/*
 		 * 摧毁-释放调用

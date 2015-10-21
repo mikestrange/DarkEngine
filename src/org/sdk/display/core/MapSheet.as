@@ -9,6 +9,7 @@ package org.sdk.display.core
 	import flash.display.DisplayObject;
 	import org.sdk.interfaces.INodeDisplay;
 	import org.sdk.reuse.RefObject;
+	import flash.display.DisplayObjectContainer;
 	
 	/**
 	 * ...
@@ -90,6 +91,16 @@ package org.sdk.display.core
 		{
 			return this;
 		}
+		
+		public function addTo(father:DisplayObjectContainer,floor:int=-1):INodeDisplay
+		{
+			if(floor<0||floor>=father.numChildren){
+				father.addChild(this);
+			}else{
+				father.addChildAt(this,floor);
+			}
+			return this;
+		} 
 		
 		public function removeFromParent(value:Boolean = true):void 
 		{

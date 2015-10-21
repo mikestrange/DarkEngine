@@ -9,6 +9,8 @@ package org.sdk.display.core
 	import org.sdk.interfaces.INodeDisplay;
 	import org.sdk.interfaces.IObject;
 	import org.sdk.interfaces.ITicker;
+	import flash.display.DisplayObjectContainer;
+	import org.sdk.interfaces.IDelegate;
 	
 	/**
 	 * ...
@@ -20,12 +22,7 @@ package org.sdk.display.core
 		private var _sizeWidth:Number;
 		private var _sizeHeight:Number;
 		private var _ticker:Ticker;
-		private var _delegate:IObject;
-		
-		public function BaseSprite() 
-		{
-			
-		}
+		private var _delegate:IDelegate;
 		
 		/*初始化*/
 		protected function initialization():void
@@ -34,9 +31,8 @@ package org.sdk.display.core
 		}
 		
 		/* INTERFACE org.sdk.interfaces.IBaseSprite */
-		public function addNodeDisplay(node:INodeDisplay, floor:int = -1, tag:int = 0):INodeDisplay
+		public function addNodeDisplay(node:INodeDisplay, floor:int = -1):INodeDisplay
 		{
-			node.setTag(tag);
 			if(floor < 0 || floor >= this.numChildren)
 			{
 				addChild(node.convertDisplayObject);
@@ -97,6 +93,8 @@ package org.sdk.display.core
 			}
 		}
 		
+		
+		/* INTERFACE org.sdk.interfaces.INodeDisplay */
 		public function setPosition(x:Number = 0, y:Number = 0):void 
 		{
 			this.x = x;
@@ -139,18 +137,18 @@ package org.sdk.display.core
 			return _tag == value;
 		}
 		
-		public function show():void 
-		{
-			this.visible = true;
-		}
-		
-		public function hide():void 
-		{
-			this.visible = false;
-		}
-		
 		public function get convertDisplayObject():DisplayObject 
 		{
+			return this;
+		}
+		
+		public function addTo(father:DisplayObjectContainer,floor:int=-1):INodeDisplay
+		{
+			if(floor < 0 || floor >= father.numChildren){
+				father.addChild(this);
+			}else{
+				father.addChildAt(this,floor);
+			}
 			return this;
 		}
 		
@@ -174,12 +172,13 @@ package org.sdk.display.core
 			}
 		}
 		
-		public function get delegate():IObject
+		/* INTERFACE org.sdk.interfaces.IObject */
+		public function get delegate():IDelegate
 		{
 			return _delegate;
 		}
 		
-		public function set delegate(value:IObject):void	
+		public function set delegate(value:IDelegate):void	
 		{
 			_delegate = value;
 		}

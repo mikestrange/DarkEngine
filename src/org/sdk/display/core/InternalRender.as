@@ -9,6 +9,7 @@ package org.sdk.display.core
 	import org.sdk.interfaces.IRefObject;
 	import org.sdk.interfaces.IRender;
 	import org.sdk.reuse.RefManager;
+	import org.sdk.interfaces.IDelegate;
 	
 	/**
 	 * ...
@@ -16,7 +17,7 @@ package org.sdk.display.core
 	 */
 	internal class InternalRender extends Bitmap implements IRender 
 	{
-		private var _delegate:IObject;
+		private var _delegate:IDelegate;
 		private var _ref:IRefObject;
 		
 		public function InternalRender(res:String = null) 
@@ -90,13 +91,13 @@ package org.sdk.display.core
 			}
 		}
 		
-		
-		public function get delegate():IObject
+		/* INTERFACE org.sdk.interfaces.IObject */
+		public function get delegate():IDelegate
 		{
 			return _delegate;
 		}
 		
-		public function set delegate(value:IObject):void	
+		public function set delegate(value:IDelegate):void	
 		{
 			_delegate = value;
 		}
