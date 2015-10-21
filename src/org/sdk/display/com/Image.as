@@ -1,48 +1,59 @@
-package org.sdk.display.core 
+package org.sdk.display.com 
 {
 	import flash.display.BitmapData;
+	import org.sdk.display.core.KindMap;
+	import org.sdk.interfaces.IRefObject;
 	import org.sdk.load.DownLoader;
 	import org.sdk.load.LoadEvent;
-	import org.sdk.reuse.RefObject;
+	import org.sdk.manager.member.RefObject;
 	/*
 	 * 不作为INode
 	 * */
-	public class Image extends InternalRender 
+	public class Image extends KindMap 
 	{
 		private var _loader:DownLoader;
 		
 		public function Image(url:String = null) 
 		{
-			if(url) setResource(url);
+			if(url) this.localRender(url);
 		}
 		
-		public function setResource(url:String, data:Object = null):void 
+		/*
+		 * 找不到就去下载
+		 * */
+		override public function getFailedHandler(name:String, data:Object = null):IRefObject 
 		{
-			if (hasRef(url)) {
-				this.localRender(url, data);
-			}else{
-				unload();
-				_loader = new DownLoader;
-				_loader.load(url, onComplete, onFailed);
-			}
+			unload();
+			_loader = new DownLoader;
+			_loader.load(name, onComplete, onFailed);
+			return null;
 		}
 		
+		/*
+		 * 成功贴图
+		 * */
 		protected function onComplete(event:LoadEvent):void
 		{
 			this.unload();
 			const url:String = event.target.getURL();
-			if (!hasRef(url)) {
-				this.washRender(new RefObject(url, event.data));
-			}else {
+			if (hasRef(url)) {
 				this.localRender(url);
+			}else {
+				this.washRender(new RefObject(url, event.data));
 			}
 		}
 		
+		/*
+		 * 失败处理
+		 * */
 		protected function onFailed(event:LoadEvent = null):void
 		{
 			this.unload();
 		}
 		
+		/*
+		 * 卸载下载
+		 * */
 		public function unload():void
 		{
 			if (_loader) {

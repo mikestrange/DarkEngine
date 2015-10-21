@@ -13,7 +13,7 @@ package org.sdk.load
 		//全局
 		private static var _ins:QueueManager;
 		
-		public static function get unique():QueueManager
+		public static function getInstance():QueueManager
 		{
 			return _ins || (_ins = new QueueManager);
 		}
@@ -64,25 +64,29 @@ package org.sdk.load
 			return 	_loadLen >= _maxLen;
 		}
 		
-		public function isEmpty():Boolean
+		public function isWaitEmpty():Boolean
 		{
 			return _requests.length == NONE;
 		}
 		
 		public function loadNext():void
 		{
-			if (isEmpty()) return;
-			if (isLoadFull()) return;
-			const node:NodeLoader = _requests.shift();
-			if (isMap(node.url)) 
-			{
-				loadRise();
-				const loader:IResLoader = createLoader(node.url);
-				loader.downLoad(node.url);
-				node.loadBegin(loader);
+			if (isWaitEmpty()) {
+				Log.debug("等待下载列表为空,目前下载个数:", _loadLen);
+			}else if (isLoadFull()) {
+				Log.debug("当前下载队列已满,目前等待下载个数:", _requests.length);
+			}else {
+				const node:NodeLoader = _requests.shift();
+				if (isMap(node.url)) 
+				{
+					loadRise();
+					const loader:IResLoader = createLoader(node.url);
+					loader.downLoad(node.url);
+					node.loadBegin(loader);
+				}
+				//继续下载
+				loadNext();
 			}
-			//继续下载
-			loadNext();
 		}
 		
 		/*

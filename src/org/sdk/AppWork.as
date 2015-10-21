@@ -3,7 +3,7 @@ package org.sdk
 	import flash.display.Stage;
 	import flash.system.ApplicationDomain;
 	import org.sdk.debug.Log;
-	import org.sdk.display.scene.SceneManager;
+	import org.sdk.manager.SceneManager;
 	import org.sdk.engine.MotivePower;
 	import flash.display.InteractiveObject;
 	import flash.utils.getDefinitionByName;

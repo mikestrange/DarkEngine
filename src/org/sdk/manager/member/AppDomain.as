@@ -1,11 +1,9 @@
-package org.sdk.context 
+package org.sdk.manager.member 
 {
 	import flash.display.Loader;
 	import flash.system.ApplicationDomain;
 	import flash.system.LoaderContext;
-	import flash.system.SecurityDomain;
 	import org.sdk.debug.Log;
-	
 	/**
 	 *单独的资源域
 	 */

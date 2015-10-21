@@ -1,9 +1,9 @@
-package org.sdk.reuse 
-{
+package org.sdk.manager {
 	import flash.utils.Dictionary;
 	import org.sdk.debug.Log;
 	import org.sdk.interfaces.IRefObject;
 	import org.sdk.interfaces.IRender;
+	import org.sdk.beyond_abysm;
 	/**
 	 * 缓存管理
 	 * @author Mike email:542540443@qq.com
@@ -57,7 +57,7 @@ package org.sdk.reuse
 		}
 		
 		//内部员工
-		internal function remove(name:String):void
+		beyond_abysm function remove(name:String):void
 		{
 			if (hasRef(name)) {
 				delete refMap[name];

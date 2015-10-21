@@ -19,10 +19,6 @@ package org.sdk.interfaces
 		 * 摧毁-释放调用
 		 * */
 		function undepute():void;
-		/*
-		 * 唯一名称
-		 * */
-		function getCodeName():String;
 		//end
 	}
 	

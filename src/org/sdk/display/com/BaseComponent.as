@@ -1,12 +1,12 @@
 package org.sdk.display.com 
 {
 	import flash.events.Event;
-	import org.sdk.display.core.BaseSprite;
+	import org.sdk.display.core.KindSprite;
 	/**
 	 * 组件基类
 	 * @author Mike email:542540443@qq.com
 	 */
-	public class BaseComponent extends BaseSprite 
+	public class BaseComponent extends KindSprite 
 	{
 		private var _isrun:Boolean = false;
 		

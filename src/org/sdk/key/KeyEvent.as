@@ -6,47 +6,25 @@ package org.sdk.key {
 	 */
 	public class KeyEvent 
 	{
-		internal var $isDown:Boolean;
-		internal var $downTime:int;
-		internal var $code:int;
+		private var _downTime:uint;
+		private var _code:uint;
 		
-		public function KeyEvent(code:int, down:Boolean) 
+		public function KeyEvent(code:uint) 
 		{
-			this.$code = code;
-			this.$isDown = down;
-			this.$downTime = getTimer();
+			this._code = code;
+			this._downTime = getTimer();
 		}
 		
-		public function getCode():int
+		public function get code():uint
 		{
-			return $code;
+			return _code;
 		}
 		
-		public function get isSelfDown():Boolean
+		public function getDownTimer():uint
 		{
-			return $isDown;
+			return _downTime;
 		}
 		
-		public function get downTime():int
-		{
-			return $downTime;
-		}
-		
-		/*
-		 * 这里是可以作为别人关注
-		 * */
-		public function isKeyDown(code:int):Boolean
-		{
-			return KeyManager.isKeyDown(code);
-		}
-		
-		/*
-		 * 取一个按钮按下的时间
-		 * */
-		public function getDownTime(code:int):Number
-		{
-			return KeyManager.getDownTime(code);
-		}
 		//ends
 	}
 

@@ -1,10 +1,8 @@
-package org.sdk.display.scene 
+package org.sdk.manager 
 {
 	import flash.display.Sprite;
-	/**
-	 * ...
-	 * @author Main
-	 */
+	import org.sdk.manager.interfaces.IScene;
+
 	public class SceneManager 
 	{
 		private static var _instance:SceneManager;

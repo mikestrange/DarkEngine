@@ -4,8 +4,6 @@ package org.sdk.engine
 	import org.sdk.beyond_abysm;
 	import org.sdk.debug.Log;
 	import org.sdk.AppWork;
-	use namespace beyond_abysm;
-	
 	/**
 	 * 原动力
 	 * @author Main
@@ -20,11 +18,11 @@ package org.sdk.engine
 		public static const STOP:Boolean = false;
 		public static const PLAY:Boolean = true;
 		
-		beyond_abysm static var _speed:int = 1;
-		beyond_abysm static var _pattern:String = "null";
-		beyond_abysm static var _isrunning:Boolean = true;
-		beyond_abysm static var _runsVector:Vector.<IRunning>;
-		beyond_abysm static var _sunEventer:IEventDispatcher;
+		private static var _speed:int = 1;
+		private static var _pattern:String = "null";
+		private static var _isrunning:Boolean = true;
+		private static var _runsVector:Vector.<IRunning>;
+		private static var _sunEventer:IEventDispatcher;
 		
 		public static function setRunDispatcher(dispatcher:IEventDispatcher = null):void
 		{

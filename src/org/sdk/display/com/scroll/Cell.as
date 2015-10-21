@@ -1,11 +1,10 @@
 package org.sdk.display.com.scroll 
 {
-	import org.sdk.display.com.interfaces.ICell;
-	import org.sdk.display.core.BaseSprite;
+	import org.sdk.display.core.KindSprite;
 	/**
 	 * 一个小块
 	 */
-	public class Cell extends BaseSprite implements ICell
+	public class Cell extends KindSprite
 	{
 		private var _floor:int;
 		private var _isopen:Boolean;

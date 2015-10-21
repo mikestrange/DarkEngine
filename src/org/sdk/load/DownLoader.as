@@ -32,7 +32,7 @@ package org.sdk.load
 		public function unload():void
 		{
 			if (_isKeep) {
-				QueueManager.unique.removeDownLoader(this);
+				QueueManager.getInstance().removeDownLoader(this);
 				_isKeep = false;
 			}
 			_isLoad = false;
@@ -133,8 +133,8 @@ package org.sdk.load
 			_complete = complete;
 			_progress = progress;
 			_injectTime = getTimer();
-			QueueManager.unique.put(this);
-			QueueManager.unique.loadNext();
+			QueueManager.getInstance().put(this);
+			QueueManager.getInstance().loadNext();
 		}
 		
 		/*
@@ -149,8 +149,8 @@ package org.sdk.load
 				_injectTime = getTimer();
 				_startTime = NO_TIME;
 				_completeTime = NO_TIME;
-				QueueManager.unique.put(this);
-				QueueManager.unique.loadNext();
+				QueueManager.getInstance().put(this);
+				QueueManager.getInstance().loadNext();
 			}
 		}
 		

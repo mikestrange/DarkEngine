@@ -1,8 +1,8 @@
-package org.sdk.context 
-{
+package org.sdk.manager {
 	import flash.system.ApplicationDomain;
 	import flash.system.LoaderContext;
 	import org.sdk.debug.Log;
+	import org.sdk.manager.member.AppDomain;
 	/**
 	 *域的管理
 	 */

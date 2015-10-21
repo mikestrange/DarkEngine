@@ -2,13 +2,12 @@ package org.sdk.display.core
 {
 	import flash.display.DisplayObject;
 	import flash.display.Sprite;
-	
 	import org.sdk.display.QuickHandler;
-	import org.sdk.display.tick.Ticker;
+	import org.sdk.manager.TickManager;
+	import org.sdk.manager.member.TickObserver;
 	import org.sdk.interfaces.IBaseSprite;
 	import org.sdk.interfaces.INodeDisplay;
 	import org.sdk.interfaces.IObject;
-	import org.sdk.interfaces.ITicker;
 	import flash.display.DisplayObjectContainer;
 	import org.sdk.interfaces.IDelegate;
 	
@@ -16,12 +15,11 @@ package org.sdk.display.core
 	 * ...
 	 * @author Mike email:542540443@qq.com
 	 */
-	public class BaseSprite extends InternalSprite implements IBaseSprite 
+	public class KindSprite extends Sprite implements IBaseSprite 
 	{
 		private var _tag:int;
 		private var _sizeWidth:Number;
 		private var _sizeHeight:Number;
-		private var _ticker:Ticker;
 		private var _delegate:IDelegate;
 		
 		/*初始化*/
@@ -158,20 +156,6 @@ package org.sdk.display.core
 			if (parent) parent.removeChild(this);
 		}
 		
-		public function get ticker():ITicker 
-		{
-			if (_ticker == null) _ticker = new Ticker();
-			return _ticker;
-		}
-		
-		public function removeTicker():void 
-		{
-			if (_ticker) {
-				_ticker.unload();
-				_ticker = null;
-			}
-		}
-		
 		/* INTERFACE org.sdk.interfaces.IObject */
 		public function get delegate():IDelegate
 		{
@@ -190,15 +174,33 @@ package org.sdk.display.core
 		
 		public function undepute():void 
 		{
-			this.removeTicker();
+			this.stopScheduler();
 			QuickHandler.cleanupDisplayObject(this);
 		}
 		
-		public function getCodeName():String 
+		// others**************
+		/*
+		 * 调度器
+		 * */
+		public function get scheduler():TickObserver
 		{
-			return null;
+			return new TickObserver(this);
 		}
 		
+		public function stopScheduler(method:Function = null):void
+		{
+			if (method is Function) {
+				TickManager.getInstance().removeMethod(this, method);
+			}else {
+				TickManager.getInstance().removeTarget(this);
+			}
+		}
+		
+		//static
+		protected static function isNodeDisplay(target:Object):Boolean
+		{
+			return target is INodeDisplay;
+		}
 		//end
 	}
 

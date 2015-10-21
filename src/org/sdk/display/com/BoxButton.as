@@ -1,10 +1,8 @@
-package org.sdk.display.com.button 
-{
+package org.sdk.display.com {
 	import flash.events.MouseEvent;
 	import org.sdk.display.com.BaseComponent;
-	import org.sdk.display.core.MapSheet;
+	import org.sdk.display.core.KindMap;
 	import org.sdk.interfaces.INodeDisplay;
-	import org.sdk.interfaces.IBitmap;
 	import org.sdk.interfaces.IRender;
 	
 	/**
@@ -18,7 +16,7 @@ package org.sdk.display.com.button
 		public static const RELEASE:String = "release";
 		public static const LOCK:String = "lock";
 		//
-		private var _content:IBitmap;
+		private var _content:KindMap;
 		private var _isOver:Boolean;
 		private var _isDown:Boolean;
 		private var _isLock:Boolean;
@@ -33,7 +31,7 @@ package org.sdk.display.com.button
 			super.initialization();
 			if (null == _content) 
 			{
-				_content = new MapSheet;
+				_content = new KindMap;
 				this.addChild(_content.convertDisplayObject);
 			}
 			this.addEventListener(MouseEvent.MOUSE_OVER, onMouse);
@@ -127,7 +125,7 @@ package org.sdk.display.com.button
 		/*
 		 * 皮肤描叙
 		 * */
-		public function get content():IBitmap
+		public function get content():KindMap
 		{
 			return _content;
 		}

@@ -6,12 +6,10 @@ package org.sdk.display.com.scroll
 	import flash.display.Sprite;
 	import flash.events.MouseEvent;
 	import flash.utils.getTimer;
-	
 	import org.sdk.AppWork;
 	import org.sdk.classes.common.MapInteger;
 	import org.sdk.display.com.BaseComponent;
-	import org.sdk.display.com.interfaces.ICell;
-	import org.sdk.display.core.BaseSprite;
+	import org.sdk.display.core.KindSprite;
 	import org.sdk.interfaces.IBaseSprite;
 	/**
 	 * 
@@ -145,7 +143,7 @@ package org.sdk.display.com.scroll
 		private function getLoader():Sprite
 		{
 			if (_loader == null) {
-				_loader = new BaseSprite;
+				_loader = new KindSprite;
 				this.addChild(_loader.convertSprite);
 			}
 			return _loader.convertSprite;
@@ -205,9 +203,9 @@ package org.sdk.display.com.scroll
 					//trace(_spaceList[floor], spaceTotal, maxHeight);
 					if (_spaceList[floor] - spaceTotal >= maxHeight) break;
 					if (getMap().isKey(floor)) {
-						ICell(getMap().getValue(floor)).setOpen(true);
+						Cell(getMap().getValue(floor)).setOpen(true);
 					}else {
-						const item:ICell = _rollApply(this, floor) as ICell;
+						const item:Cell = _rollApply(this, floor) as Cell;
 						getMap().put(floor, item);
 						item.setPosition(NONE, _spaceList[floor]);
 						item.setOpen(true);
@@ -221,7 +219,7 @@ package org.sdk.display.com.scroll
 		private function refresh():void
 		{
 			//重绘
-			const renders:Function = function(item:ICell):void
+			const renders:Function = function(item:Cell):void
 			{
 				if (item.isOpen()) {
 					item.setOpen(false);
@@ -239,7 +237,7 @@ package org.sdk.display.com.scroll
 			return _itemMap;
 		}
 		
-		public function getQueue(index:int = 0):ICell
+		public function getQueue(index:int = 0):Cell
 		{
 			return new Cell(index);
 		}

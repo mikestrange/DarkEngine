@@ -86,12 +86,12 @@ package org.sdk.load.loads
 		//进度
 		protected function onProgress(event:ProgressEvent):void
 		{
-			QueueManager.unique.onProgressHandler(_url, event);
+			QueueManager.getInstance().onProgressHandler(_url, event);
 		}
 		
 		protected function completeHandler():void
 		{
-			QueueManager.unique.onLoadComplete(this);
+			QueueManager.getInstance().onLoadComplete(this);
 		}
 		
 		//打印

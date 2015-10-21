@@ -1,5 +1,4 @@
-package org.sdk.display.scene 
-{
+package org.sdk.manager.interfaces {
 	import flash.display.Sprite;
 	
 	/**

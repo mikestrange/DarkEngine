@@ -1,11 +1,11 @@
-package org.sdk.reuse 
+package org.sdk.manager.member 
 {
 	import flash.display.BitmapData;
-	
+	import org.sdk.manager.RefManager;
 	import org.sdk.display.QuickHandler;
-	import org.sdk.interfaces.IObject;
 	import org.sdk.interfaces.IRefObject;
-
+	import org.sdk.beyond_abysm;
+	use namespace beyond_abysm;
 	/**
 	 * 缓存的对象，默认保存
 	 * @author Mike email:542540443@qq.com
@@ -15,7 +15,6 @@ package org.sdk.reuse
 		protected var _name:String;
 		protected var _target:*= undefined;
 		protected var _count:uint = 0;
-		private var _delegate:IObject;
 		
 		public function RefObject(name:String, target:*= undefined) 
 		{

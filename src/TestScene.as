@@ -1,12 +1,11 @@
 package  
 {
 	import flash.text.TextField;
-	
-	import org.sdk.display.com.interfaces.ICell;
+	import org.sdk.display.com.scroll.Cell;
 	import org.sdk.display.com.scroll.TableView;
-	import org.sdk.display.core.Image;
-	import org.sdk.display.core.MapSheet;
-	import org.sdk.display.scene.BaseScene;
+	import org.sdk.display.com.Image;
+	import org.sdk.display.core.KindMap;
+	import org.sdk.display.BaseScene;
 	import org.sdk.effects.DisplayEffects;
 	
 	/**
@@ -19,7 +18,7 @@ package
 		override public function onEnter(data:* = undefined):void 
 		{
 			super.onEnter(data);
-			var a:MapSheet = new MapSheet("btn_b_down");
+			var a:KindMap = new KindMap("btn_b_down");
 			a.setSize(a.width, a.height);
 			this.addChild(a.convertDisplayObject);
 			//
@@ -33,7 +32,7 @@ package
 			this.addChild(g2);
 			DisplayEffects.pervasion(a);
 			//
-			ticker.step(1000, called);
+			scheduler.applyMethod(called, 100);
 		}
 		
 		private function spaceHandler(index:int):int
@@ -41,10 +40,10 @@ package
 			return 30;
 		}
 		
-		private function rollHandler(table:TableView,index:int):ICell
+		private function rollHandler(table:TableView,index:int):Cell
 		{
-			const cell:ICell = table.getQueue(index);
-			var a:MapSheet = new MapSheet("btn_b_down");
+			const cell:Cell = table.getQueue(index);
+			var a:KindMap = new KindMap("btn_b_down");
 			a.setSize(a.width, a.height);
 			cell.addNodeDisplay(a);
 			var text:TextField = new TextField;
@@ -54,14 +53,14 @@ package
 			return cell;
 		}
 		
-		private function called():void
+		private function called(index:int=-1):void
 		{
+			trace("xxx", index);
 			var table:TableView = new TableView;
-			table.setSize(100,200);
-			table.resetting(10,spaceHandler,rollHandler);
+			table.setSize(100,400);
+			table.resetting(200,spaceHandler,rollHandler);
 			this.addNodeDisplay(table);
 			table.setPosition(100,100);
-			table.setSize(200,200);
 		}
 		
 		//ends

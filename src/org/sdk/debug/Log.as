@@ -13,7 +13,6 @@ package org.sdk.debug
 	{
 		public static var traceLevel:int = 1;
 		//打印
-		private static var FLOOR:int = 0;
 		public static const DEBUG:int = 1;
 		public static const INFO:int = 2;
 		public static const WARN:int = 3;
@@ -125,7 +124,7 @@ package org.sdk.debug
 		{
 			if (traceLevel <= level) 
 			{
-				const header:String = (++FLOOR) + TYPES[level];
+				const header:String = TYPES[level];
 				argument.unshift(header);
 				trace.apply(null, argument);
 			}

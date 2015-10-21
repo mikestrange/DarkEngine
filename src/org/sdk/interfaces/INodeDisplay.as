@@ -53,14 +53,6 @@ package org.sdk.interfaces
 		* 添加到
 		* */
 		function addTo(father:DisplayObjectContainer,floor:int=-1):INodeDisplay;
-		/*
-		 * 计时器
-		 * */
-		function get ticker():ITicker;
-		/*
-		 * 移除计时器
-		 * */
-		function removeTicker():void;
 		//ends
 	}
 	

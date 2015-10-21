@@ -14,11 +14,11 @@ package
 	import flash.utils.ByteArray;
 	import flash.utils.getTimer;
 	import org.sdk.debug.Log;
-	import org.sdk.display.com.button.BoxButton;
-	import org.sdk.display.core.BaseSprite;
-	import org.sdk.display.core.Image;
-	import org.sdk.display.core.Image;
-	import org.sdk.display.core.MapSheet;
+	import org.sdk.display.com.BoxButton;
+	import org.sdk.display.core.KindSprite;
+	import org.sdk.display.com.Image;
+	import org.sdk.display.com.Image;
+	import org.sdk.display.core.KindMap;
 	import org.sdk.engine.MotivePower;
 	import org.sdk.AppWork;
 	import org.sdk.interfaces.IRender;
@@ -33,7 +33,7 @@ package
 	 * ...
 	 * @author Mike email:542540443@qq.com
 	 */
-	public class Main extends BaseSprite 
+	public class Main extends KindSprite 
 	{
 		public function Main():void 
 		{
@@ -61,10 +61,6 @@ package
 		
 		private function onComplete(event:Event):void
 		{
-			AppWork.getSceneManager().replaceScene(new TestScene);
-			//
-			AppWork.getSceneManager().replaceScene(new TestScene);
-			//
 			AppWork.getSceneManager().replaceScene(new TestScene);
 		}
 		//end
