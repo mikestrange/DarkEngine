@@ -46,8 +46,7 @@ package
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			// entry point
-			AppWork.setApp(stage);
-			AppWork.getSceneManager().root = this;
+			AppWork.setApp(this);
 			DownLoader.create("common.swf", complete);
 		}
 		

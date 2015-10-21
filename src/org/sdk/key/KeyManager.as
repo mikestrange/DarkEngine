@@ -33,7 +33,7 @@ package org.sdk.key
 		{
 			const code:uint = event.keyCode;
 			if (isKeyDown(code)) return;
-			keyCodes[code] = new KeyEvent(code);
+			keyCodes[code] = new KeyEvent(code, event);
 			if (delegateList.length) {
 				const list:Vector.<IKeyDelegate> = delegateList.slice(NONE, delegateList.length);
 				for each(var delegate:IKeyDelegate in list) {
@@ -46,6 +46,7 @@ package org.sdk.key
 		{
 			const code:uint = event.keyCode;
 			const node:KeyEvent = keyCodes[code];
+			node.event = event;
 			if (node) delete keyCodes[code];
 			if (delegateList.length) {
 				const list:Vector.<IKeyDelegate> = delegateList.slice(NONE, delegateList.length);

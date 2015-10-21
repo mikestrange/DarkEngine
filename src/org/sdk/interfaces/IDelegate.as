@@ -4,6 +4,7 @@ package org.sdk.interfaces
 	 * */
 	public interface IDelegate
 	{
-		
+		function applyHandler(notice:String, target:Object = null):void;
+		//ends
 	}
 }

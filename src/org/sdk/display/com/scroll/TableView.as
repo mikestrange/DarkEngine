@@ -1,41 +1,46 @@
 package org.sdk.display.com.scroll 
 {
-	import com.greensock.TweenLite;
-	
 	import flash.display.Shape;
 	import flash.display.Sprite;
 	import flash.events.MouseEvent;
 	import flash.utils.getTimer;
 	import org.sdk.AppWork;
 	import org.sdk.classes.common.MapInteger;
-	import org.sdk.display.com.BaseComponent;
 	import org.sdk.display.core.KindSprite;
 	import org.sdk.interfaces.IBaseSprite;
+	import org.sdk.display.com.interfaces.ITableViewDelegate;
 	/**
-	 * 
+	 * 拉动组件
 	 */
-	public class TableView extends BaseComponent 
+	public class TableView extends KindSprite 
 	{
 		private static const NONE:int = 0;
+		//判断是否移动的阔值
+		private const MOVE_THRESHOLD:int = 5;
+		//离心率
+		private const _eccentricity:Number = .02;	
+		//鼠标的位置
+		private var _downMousePosition:Number;		
+		//content按下的位置
+		private var _downContentPosition:Number;			
+		//按下时间
+		private var _downTime:int;					
+		//鼠标按下
+		private var _isMouseDown:Boolean;
+		//鼠标移动了
+		private var _isMouseMove:Boolean;
 		//
-		private const _eccentricity:Number = .02;	//离心率
-		private var _downY:int;						//开始位置
-		private var _currentY:int;					//当前的移动距离
-		private var _downTime:int;					//按下时间
-		private var moveDistance:Number = 0;		//移动距离
-		//动态
-		private var _isDown:Boolean;
-		private var _isMove:Boolean;
-		private var _isSelfMove:Boolean;
-		//
-		private var _lineLen:int;
 		private var _totalHeight:int;
-		private var _rollApply:Function;
 		private var _spaceList:Vector.<Number>;
 		//
-		private var _itemMap:MapInteger;
-		private var _loader:IBaseSprite;
+		private var _cellMap:MapInteger;
+		private var _content:IBaseSprite;
 		private var _mask:Shape;
+		
+		public function TableView(wide:Number = 0, high:Number = 0)
+		{
+			setSize(wide, high);
+		}
 		
 		override public function setSize(wide:Number, heig:Number):void 
 		{
@@ -49,139 +54,93 @@ package org.sdk.display.com.scroll
 			_mask.graphics.beginFill(0,.3);
 			_mask.graphics.drawRect(0, 0, wide, heig);
 			_mask.graphics.endFill();
-			getLoader().mask = _mask;
+			content.mask = _mask;
 			//
 			addListener();
-		}
-		
-		public function cleanContent():void
-		{
-			_itemMap = null;
-			if(_loader){
-				_loader.removeEveryChildren();
-			}
 		}
 		
 		private function addListener():void
 		{
 			removeListener();
-			this.addEventListener(MouseEvent.MOUSE_DOWN, _onDown);
+			this.addEventListener(MouseEvent.MOUSE_DOWN, _onSelfDown);
 			AppWork.addStageListener(MouseEvent.MOUSE_MOVE, _onStageMove);
 			AppWork.addStageListener(MouseEvent.MOUSE_UP, _onStageUp);
 		}
 		
 		private function removeListener():void
 		{
-			this.removeEventListener(MouseEvent.MOUSE_DOWN, _onDown);
+			this.removeEventListener(MouseEvent.MOUSE_DOWN, _onSelfDown);
 			AppWork.removeStageListener(MouseEvent.MOUSE_MOVE, _onStageMove);
 			AppWork.removeStageListener(MouseEvent.MOUSE_UP, _onStageUp);
-			_isMove = _isDown = false;
+			_isMouseMove = _isMouseDown = false;
 		}
 		
-		override public function undepute():void
+		private function _onSelfDown(event:MouseEvent):void
 		{
-			this.removeListener();
-			super.undepute();
-		}
-		
-		private function _onDown(e:MouseEvent):void
-		{
-			_isDown = true;
+			_isMouseDown = true;
+			_isMouseMove = false;
 			_downTime = getTimer();
-			_downY = AppWork.stage.mouseY;
-			_currentY = _downY;
-			_isMove = false;
-			this.setRunning(true);
+			_downMousePosition = AppWork.stage.mouseY;
+			_downContentPosition = locationPosition;
 		}
 		
-		private function _onStageUp(e:MouseEvent):void
+		private function _onStageUp(event:MouseEvent):void
 		{
-			this.setRunning(false);
-			this._isDown = false;
-			this.moveDistance = NONE;
-			this.updateRender( -getFinger());
+			_isMouseDown = false;
 			const tickTime:int = getTimer() - _downTime;
-			const interval:Number = AppWork.stage.mouseY - _downY;
+			const interval:Number = AppWork.stage.mouseY - _downMousePosition;
 		}
 		
-		override protected function frameRender(float:uint = 0):void 
-		{
-			if (moveDistance != NONE && _isSelfMove)
-			{
-				_isSelfMove = false;
-				const endy:Number = getLoader().y + moveDistance;
-				if(endy > NONE){
-					getLoader().y = NONE;
-				}else if(endy < sizeHeight - _totalHeight){
-					getLoader().y = sizeHeight - _totalHeight;
-				}else{
-					getLoader().y = endy;
-				}
-				this.updateRender(-getFinger());
-			}	
-		}
-		
-		//mouse move
 		private function _onStageMove(e:MouseEvent):void
 		{
-			if (_isDown)
+			if (_isMouseDown)
 			{
-				_isSelfMove = true;
-				if (Math.abs(_downY - AppWork.stage.mouseY) > 5) _isMove = true;
+				if (Math.abs(AppWork.stage.mouseY - _downMousePosition) > MOVE_THRESHOLD) _isMouseMove = true;
 				//
-				moveDistance = AppWork.stage.mouseY - _currentY;
-				if (this.getFinger() > NONE && moveDistance > NONE) {
-					moveDistance = (sizeHeight - this.getFinger()) * _eccentricity;
-				}else if (isBottom && moveDistance < NONE) {
-					moveDistance = -(_totalHeight - Math.abs(this.getFinger())) * _eccentricity;
+				var endy:Number = _downContentPosition + (AppWork.stage.mouseY - _downMousePosition);
+				if (endy > NONE) {
+					endy = NONE;
+				}else if (endy < -maxPosition) {
+					endy = -maxPosition;
 				}
-				//重新设置
-				_currentY = AppWork.stage.mouseY;
+				locationPosition = endy;
 			}
-		}
-		
-		private function getLoader():Sprite
-		{
-			if (_loader == null) {
-				_loader = new KindSprite;
-				this.addChild(_loader.convertSprite);
-			}
-			return _loader.convertSprite;
-		}
-		
-		public function getFinger():int
-		{
-			return  getLoader().y;
 		}
 		
 		/*
-		 * 重置的时候必须要填写
+		 * 重置数据
 		 * */
-		public function resetting(line:int , spaceHandler:Function, rollHandler:Function):void
+		public function reallocated():void
 		{
-			_lineLen = line;
-			_rollApply = rollHandler;
-			_spaceList = new Vector.<Number>(line, true);
+			const lineLen:int = tableViewDelegate.rowHandler();
+			_spaceList = new Vector.<Number>(lineLen, true);
 			_totalHeight = NONE;
-			for (var i:int = 0; i < line; i++) {
-				const space:Number = spaceHandler(i);
+			for (var i:int = 0; i < lineLen; i++) {
+				const space:Number = tableViewDelegate.spaceHandler(i);
 				_spaceList[i] = _totalHeight;
 				_totalHeight += space;
 			}
-			//
+			//-----
+			_cellMap = null;
+			if (_content) {
+				_content.removeEveryChildren();
+			}
 			updateRender();
 		}
 		
 		//value是一个正直
-		public function updateRender(value:int = 0):void
+		protected function updateRender():void
 		{
-			getLoader().y = -value;
-			const point:int = value; 
-			const loader:Sprite = getLoader();
-			var startIndex:int = NONE;
-			var offset:Number = NONE;
+			//得到一个正位置
+			const point:int = -locationPosition;
+			const lineLen:int = _spaceList.length;
+			//开始的位置
+			var startIndex:int = NONE; 
+			//偏移长度
+			var offset:Number = NONE;	
+			var i:int = NONE;
 			if (point > NONE) {
-				for (var i:int = _lineLen - 1; i >= NONE; i--) 
+				for (i = lineLen - 1; i >= NONE; i--) 
 				{
 					if (_spaceList[i] <= point) 
 					{
@@ -198,18 +157,18 @@ package org.sdk.display.com.scroll
 			const maxHeight:int = sizeHeight + offset;
 			const spaceTotal:Number = _spaceList[startIndex];
 			if (point < _totalHeight) {
-				for (var floor:int = startIndex; floor < _lineLen; floor++) 
+				for (i = startIndex; i < lineLen; i++) 
 				{
 					//trace(_spaceList[floor], spaceTotal, maxHeight);
-					if (_spaceList[floor] - spaceTotal >= maxHeight) break;
-					if (getMap().isKey(floor)) {
-						Cell(getMap().getValue(floor)).setOpen(true);
+					if (_spaceList[i] - spaceTotal >= maxHeight) break;
+					if (tableMap.isKey(i)) {
+						Cell(tableMap.getValue(i)).setOpen(true);
 					}else {
-						const item:Cell = _rollApply(this, floor) as Cell;
-						getMap().put(floor, item);
-						item.setPosition(NONE, _spaceList[floor]);
+						const item:Cell = tableViewDelegate.rollHandler(this, i);
+						tableMap.put(i, item);
+						item.setPosition(NONE, _spaceList[i]);
 						item.setOpen(true);
-						loader.addChild(item.convertDisplayObject); //不会重复添加
+						content.addChild(item.convertDisplayObject);
 					}
 				}	
 			}
@@ -224,17 +183,17 @@ package org.sdk.display.com.scroll
 				if (item.isOpen()) {
 					item.setOpen(false);
 				}else {
-					getMap().remove(item.floor);
+					tableMap.remove(item.floor);
 					item.removeFromParent();
 				}
 			}
-			getMap().eachValue(renders);
+			tableMap.eachValue(renders);
 		}
 		
-		private function getMap():MapInteger
+		private function get tableMap():MapInteger
 		{
-			if(null == _itemMap) _itemMap = new MapInteger();
-			return _itemMap;
+			if(null == _cellMap) _cellMap = new MapInteger();
+			return _cellMap;
 		}
 		
 		public function getQueue(index:int = 0):Cell
@@ -242,21 +201,79 @@ package org.sdk.display.com.scroll
 			return new Cell(index);
 		}
 		
-		//是否滑动到底部
-		public function get isBottom():Boolean
-		{
-			return Math.abs(getLoader().y) > _totalHeight - sizeHeight;
-		}
-		
-		public function get isTop():Boolean
-		{
-			return getLoader().y == NONE;
-		}
-		
-		//是否滚动
+		/*
+		 * 是否滚动
+		 * */
 		public function get isMove():Boolean
 		{
-			return _isMove;
+			return _isMouseMove;
+		}
+		
+		/*
+		 * 总高
+		 * */
+		public function get totalHeight():Number
+		{
+			return _totalHeight;
+		}
+		
+		/*
+		 * 内容
+		 * */
+		public function get content():Sprite
+		{
+			if (_content == null) {
+				_content = new KindSprite;
+				this.addNodeDisplay(_content);
+			}
+			return _content.convertSprite;
+		}
+		
+		/*
+		 * 位置的一个比例值
+		 * */
+		public function get ratio():Number
+		{
+			return Math.abs(locationPosition / maxPosition);
+		}
+		
+		/*
+		 * 最大的一个位置，超过尺寸为正
+		 * */
+		public function get maxPosition():Number
+		{
+			return _totalHeight - sizeHeight;
+		}
+		
+		/*
+		 * 设置位置，刷新视图
+		 * */
+		public function set locationPosition(value:int):void
+		{
+			content.y = value;
+			updateRender();
+		}
+		
+		/*
+		 * 获取位置
+		 * */
+		public function get locationPosition():int
+		{
+			return  content.y;
+		}
+		
+		/*
+		 * 真正的委托者
+		 * */
+		public function get tableViewDelegate():ITableViewDelegate
+		{
+			return this.delegate as ITableViewDelegate;
+		}
+		
+		override public function undepute():void
+		{
+			this.removeListener();
+			super.undepute();
 		}
 		
 		//ends

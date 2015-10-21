@@ -1,14 +1,15 @@
-package org.sdk.display.com {
+package org.sdk.display.com 
+{
 	import flash.events.MouseEvent;
-	import org.sdk.display.com.BaseComponent;
 	import org.sdk.display.core.KindMap;
+	import org.sdk.display.core.KindSprite;
 	import org.sdk.interfaces.INodeDisplay;
 	import org.sdk.interfaces.IRender;
 	
 	/**
 	 * 按钮的基类
 	 */
-	public class BoxButton extends BaseComponent 
+	public class BoxButton extends KindSprite 
 	{
 		public static const NORMAL:String = "normal";
 		public static const OVER:String = "over";

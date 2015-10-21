@@ -1,6 +1,8 @@
 package org.sdk 
 {
+	import flash.display.Sprite;
 	import flash.display.Stage;
+	import flash.events.UncaughtErrorEvent;
 	import flash.system.ApplicationDomain;
 	import org.sdk.debug.Log;
 	import org.sdk.manager.SceneManager;
@@ -14,7 +16,24 @@ package org.sdk
 	public final class AppWork 
 	{
 		private static var _stage:Stage;
-		//舞台
+		
+		public static function setApp(root:Sprite):void
+		{
+			addError(root);
+			AppWork.stage = root.stage;
+			AppWork.getSceneManager().root = root;
+			MotivePower.setRunDispatcher(root);
+		}
+		
+		private static function addError(target:Sprite):void
+		{
+			const errorHandler:Function = function(event:UncaughtErrorEvent):void
+			{
+				Log.error(event.error.getStackTrace());
+			}
+			target.loaderInfo.uncaughtErrorEvents.addEventListener("uncaughtError", errorHandler);
+		}
+		
 		public static function get stage():Stage
 		{
 			return _stage;
@@ -27,18 +46,17 @@ package org.sdk
 		
 		public static function get stageWidth():Number
 		{
-			return stage.stageWidth;
+			return _stage.stageWidth;
 		}
 		
 		public static function get stageHeight():Number
 		{
-			return stage.stageHeight;
+			return _stage.stageHeight;
 		}
 		
-		public static function setApp(stage:Stage, engine:Boolean = true):void
+		public static function get frameRate():Number
 		{
-			AppWork.stage = stage;
-			if (engine) MotivePower.setRunDispatcher();
+			return _stage.frameRate;
 		}
 		
 		public static function addStageListener(type:String, called:Function):void
@@ -51,20 +69,15 @@ package org.sdk
 			_stage.removeEventListener(type, called);
 		}
 		
-		public static function get frameRate():Number
-		{
-			return stage.frameRate;
-		}
-		
 		//设置焦点
 		public static function setFocus(target:InteractiveObject = null):Boolean
 		{
 			if (target == null) {
-				stage.focus = stage;
+				_stage.focus = _stage;
 				return true;
 			}
 			if (target && target.stage) {
-				stage.focus = target;
+				_stage.focus = target;
 				return true;
 			}
 			return false;
