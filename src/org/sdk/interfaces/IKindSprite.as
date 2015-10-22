@@ -3,7 +3,7 @@ package org.sdk.interfaces
 	import flash.display.DisplayObject;
 	import flash.display.Sprite;
 	
-	public interface IBaseSprite extends INodeDisplay
+	public interface IKindSprite extends INodeDisplay
 	{
 		/*
 		 * 添加孩子
@@ -16,7 +16,11 @@ package org.sdk.interfaces
 		/*
 		 * 移除释放带名字的子对象
 		 * */
-		function removeByName(childName:String):DisplayObject;
+		function removeChildByName(childName:String):DisplayObject;
+		/*
+		 *移除tag
+		 * */
+		function removeChildByTag(tag:int, every:Boolean = true):void;
 		/*
 		 * 取一个包含tag的子对象
 		 * */
@@ -24,11 +28,7 @@ package org.sdk.interfaces
 		/*
 		* 取所有包含tag的子对象
 		* */
-		function getAllByTag(tag:int):Vector.<INodeDisplay>;
-		/*
-		 *移除tag
-		 * */
-		function removeByTag(tag:int, all:Boolean = true):void;
+		function getEveryChildByTag(tag:int):Vector.<INodeDisplay>;
 		/*
 		 * 自身转换
 		 * */

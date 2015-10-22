@@ -14,7 +14,7 @@ package org.sdk.interfaces
 		/*
 		 * 摧毁-释放调用
 		 * */
-		function undepute():void;
+		function destroy():void;
 		//end
 	}
 	

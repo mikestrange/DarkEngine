@@ -28,7 +28,7 @@ package org.sdk.interfaces
 		/*
 		 * 定义尺寸
 		 * */
-		function setSize(wide:Number, heig:Number):void;
+		function setSize(wide:Number, high:Number):void;
 		/*
 		 * 标记
 		 * */
@@ -52,7 +52,11 @@ package org.sdk.interfaces
 		/*
 		* 添加到
 		* */
-		function addTo(father:DisplayObjectContainer,floor:int=-1):INodeDisplay;
+		function addTo(father:DisplayObjectContainer, floor:int = -1):INodeDisplay;
+		/*
+		 * 父对象
+		 * */
+		function getKindFather():IKindSprite;
 		//ends
 	}
 	

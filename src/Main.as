@@ -12,6 +12,7 @@ package
 	import flash.system.ApplicationDomain;
 	import flash.system.LoaderContext;
 	import flash.utils.ByteArray;
+	import flash.utils.getDefinitionByName;
 	import flash.utils.getTimer;
 	import org.sdk.debug.Log;
 	import org.sdk.display.com.KindButton;

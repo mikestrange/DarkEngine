@@ -2,9 +2,6 @@ package org.sdk.display.core
 {
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
-	import flash.utils.getDefinitionByName;
-	import flash.utils.getQualifiedClassName;
-	
 	import org.sdk.interfaces.IObject;
 	import org.sdk.interfaces.IRefObject;
 	import org.sdk.interfaces.IRender;
@@ -72,16 +69,6 @@ package org.sdk.display.core
 			return _ref != null;
 		}
 		
-		public function clone():IRender 
-		{
-			const RenderClass:Class = getDefinitionByName(getQualifiedClassName(this)) as Class;
-			const target:IRender = new RenderClass;
-			if (isRender()) {
-				target.washRender(_ref);
-			}
-			return target;
-		}
-		
 		public function cleanRender():void 
 		{
 			this.bitmapData = null;
@@ -107,7 +94,7 @@ package org.sdk.display.core
 			
 		}
 		
-		public function undepute():void 
+		public function destroy():void 
 		{
 			cleanRender();
 		}

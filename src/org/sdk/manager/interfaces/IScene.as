@@ -1,10 +1,5 @@
-package org.sdk.manager.interfaces {
-	import flash.display.Sprite;
-	
-	/**
-	 * ...
-	 * @author Main
-	 */
+package org.sdk.manager.interfaces 
+{
 	public interface IScene 
 	{
 		function getSceneName():String;

@@ -1,7 +1,5 @@
 package org.sdk.load 
 {
-	import flash.utils.ByteArray;
-	import flash.utils.getQualifiedClassName;
 	import flash.utils.getTimer;
 	/**
 	 * 下载监听器
@@ -32,14 +30,10 @@ package org.sdk.load
 		public function unload():void
 		{
 			if (_isKeep) {
-				QueueManager.getInstance().removeDownLoader(this);
 				_isKeep = false;
+				QueueManager.getInstance().removeDownLoader(this);
 			}
 			_isLoad = false;
-			_complete = null;
-			_args = null;
-			_failed = null;
-			_progress = null;
 		}
 		
 		/*
@@ -157,7 +151,7 @@ package org.sdk.load
 		/*
 		 * 资源处理，这个时候资源已经缓存,根据资源的不同保存：所以，继承他就可以了 data==null的时候
 		 * */
-		public function assetHandler(assets:*= undefined):void
+		internal function assetHandler(assets:*= undefined):void
 		{
 			_isKeep = false;
 			_isLoad = false;

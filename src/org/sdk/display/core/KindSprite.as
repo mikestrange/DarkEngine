@@ -5,7 +5,7 @@ package org.sdk.display.core
 	import org.sdk.display.QuickHandler;
 	import org.sdk.manager.TickManager;
 	import org.sdk.manager.member.TickObserver;
-	import org.sdk.interfaces.IBaseSprite;
+	import org.sdk.interfaces.IKindSprite;
 	import org.sdk.interfaces.INodeDisplay;
 	import org.sdk.interfaces.IObject;
 	import flash.display.DisplayObjectContainer;
@@ -15,7 +15,7 @@ package org.sdk.display.core
 	 * ...
 	 * @author Mike email:542540443@qq.com
 	 */
-	public class KindSprite extends Sprite implements IBaseSprite 
+	public class KindSprite extends Sprite implements IKindSprite 
 	{
 		private var _tag:int;
 		private var _sizeWidth:Number;
@@ -47,7 +47,7 @@ package org.sdk.display.core
 			}
 		}
 		
-		public function removeByName(childName:String):DisplayObject 
+		public function removeChildByName(childName:String):DisplayObject 
 		{
 			const dis:DisplayObject = getChildByName(childName);
 			if (dis) {
@@ -76,7 +76,7 @@ package org.sdk.display.core
 		
 		public function eachChildrenHandler(handler:Function, tag:int = 0):void 
 		{
-			const list:Vector.<INodeDisplay> = getAllByTag(tag);
+			const list:Vector.<INodeDisplay> = getEveryChildByTag(tag);
 			//处理
 			for each(var node:INodeDisplay in list) 
 			{
@@ -84,6 +84,34 @@ package org.sdk.display.core
 			}
 		}
 		
+		public function getEveryChildByTag(tag:int):Vector.<INodeDisplay>
+		{
+			const list:Vector.<INodeDisplay> = new Vector.<INodeDisplay>;
+			for (var i:int = 0; i < this.numChildren; i++) {
+				const dis:DisplayObject = getChildAt(i);
+				if (isNodeDisplay(dis) && INodeDisplay(dis).isTag(tag)) 
+				{
+					list.push(dis as INodeDisplay);
+				}
+			}
+			return list;
+		}
+			
+		public function removeChildByTag(tag:int, every:Boolean = true):void
+		{
+			const list:Vector.<INodeDisplay> = getEveryChildByTag(tag);
+			if(list.length){
+				if(every){
+					for each(var node:INodeDisplay in list) 
+					{
+						node.removeFromParent();
+					}
+				}else{
+					//删除最顶层的
+					list.pop().removeFromParent();
+				}
+			}
+		}
 		
 		/* INTERFACE org.sdk.interfaces.INodeDisplay */
 		public function setPosition(x:Number = 0, y:Number = 0):void 
@@ -107,10 +135,10 @@ package org.sdk.display.core
 			return _sizeHeight;
 		}
 		
-		public function setSize(wide:Number, heig:Number):void 
+		public function setSize(wide:Number, high:Number):void 
 		{
 			this._sizeWidth = wide;
-			this._sizeHeight = heig;
+			this._sizeHeight = high;
 		}
 		
 		public function setTag(value:int):void 
@@ -128,33 +156,9 @@ package org.sdk.display.core
 			return _tag == value;
 		}
 		
-		public function getAllByTag(tag:int):Vector.<INodeDisplay>
+		public function getKindFather():IKindSprite
 		{
-			const list:Vector.<INodeDisplay> = new Vector.<INodeDisplay>;
-			for (var i:int = 0; i < this.numChildren; i++) {
-				const dis:DisplayObject = getChildAt(i);
-				if (isNodeDisplay(dis) && INodeDisplay(dis).isTag(tag)) 
-				{
-					list.push(dis as INodeDisplay);
-				}
-			}
-			return list;
-		}
-			
-		public function removeByTag(tag:int, all:Boolean = true):void
-		{
-			const list:Vector.<INodeDisplay> = getAllByTag(tag);
-			if(list.length){
-				if(all){
-					for each(var node:INodeDisplay in list) 
-					{
-						node.removeFromParent();
-					}
-				}else{
-					//删除最顶层的
-					list.pop().removeFromParent();
-				}
-			}
+			return this.parent as IKindSprite;
 		}
 		
 		public function get convertDisplayObject():DisplayObject 
@@ -174,7 +178,7 @@ package org.sdk.display.core
 		
 		public function removeFromParent(value:Boolean = true):void 
 		{
-			if (value) undepute();
+			if (value) destroy();
 			if (parent) parent.removeChild(this);
 		}
 		
@@ -194,7 +198,7 @@ package org.sdk.display.core
 			
 		}
 		
-		public function undepute():void 
+		public function destroy():void 
 		{
 			this.stopScheduler();
 			QuickHandler.cleanupDisplayObject(this);

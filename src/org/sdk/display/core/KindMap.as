@@ -2,6 +2,7 @@ package org.sdk.display.core
 {
 	import org.sdk.AppWork;
 	import flash.display.BitmapData;
+	import org.sdk.interfaces.IKindSprite;
 	import org.sdk.manager.member.TickObserver;
 	import org.sdk.manager.TickManager;
 	import org.sdk.interfaces.IRefObject;
@@ -54,10 +55,10 @@ package org.sdk.display.core
 			return _sizeHeight;
 		}
 		
-		public function setSize(wide:Number, heig:Number):void 
+		public function setSize(wide:Number, high:Number):void 
 		{
 			this._sizeWidth = wide;
-			this._sizeHeight = heig;
+			this._sizeHeight = high;
 		}
 		
 		public function setTag(value:int):void 
@@ -80,9 +81,10 @@ package org.sdk.display.core
 			return this;
 		}
 		
-		public function addTo(father:DisplayObjectContainer,floor:int=-1):INodeDisplay
+		public function addTo(father:DisplayObjectContainer, floor:int = -1):INodeDisplay
 		{
-			if(floor<0||floor>=father.numChildren){
+			if (floor < 0||floor >= father.numChildren)
+			{
 				father.addChild(this);
 			}else{
 				father.addChildAt(this,floor);
@@ -92,8 +94,13 @@ package org.sdk.display.core
 		
 		public function removeFromParent(value:Boolean = true):void 
 		{
-			if (value) undepute();
+			if (value) destroy();
 			if (parent) parent.removeChild(this);
+		}
+		
+		public function getKindFather():IKindSprite
+		{
+			return this.parent as IKindSprite;
 		}
 		
 		/*

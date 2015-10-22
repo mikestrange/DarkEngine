@@ -1,15 +1,14 @@
-package org.sdk.display {
+package org.sdk.display 
+{
 	import flash.utils.getQualifiedClassName;
 	import org.sdk.display.core.KindSprite;
-	import org.sdk.frame.made.PureListener;
 	import org.sdk.manager.interfaces.IScene;
 	import org.sdk.manager.SceneManager;
-	
 	/**
 	 * ...
 	 * @author Mike email:542540443@qq.com
 	 */
-	public class BaseScene extends KindSprite implements IScene 
+	public class KindScene extends KindSprite implements IScene 
 	{	
 		/* INTERFACE org.sdk.display.scene.IScene */
 		public function getSceneName():String 

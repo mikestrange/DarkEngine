@@ -1,8 +1,8 @@
 package org.sdk.engine 
 {
+	import flash.display.Sprite;
 	import flash.events.IEventDispatcher;
 	import org.sdk.beyond_abysm;
-	import org.sdk.debug.Log;
 	import org.sdk.AppWork;
 	/**
 	 * 原动力
@@ -27,7 +27,7 @@ package org.sdk.engine
 		public static function setRunDispatcher(dispatcher:IEventDispatcher = null):void
 		{
 			if (null == _sunEventer) {
-				_sunEventer = dispatcher || AppWork.stage;
+				_sunEventer = dispatcher || new Sprite;
 			}
 		}
 		
@@ -40,7 +40,7 @@ package org.sdk.engine
 			if (_runsVector == null) _runsVector = new Vector.<IRunning>;
 			_runsVector.push(target);
 			if (isExecuting()) {
-				Log.debug("run ->", target);
+				//Log.debug("run ->", target);
 				_sunEventer.addEventListener(ENTER_FRAME, target.runEvent);
 			}
 		}
@@ -53,7 +53,7 @@ package org.sdk.engine
 				if (index != Negative) _runsVector.splice(index, HAVE);
 				if (_runsVector.length == NONE) _runsVector = null;
 				if (isExecuting()) {
-					Log.debug("stop ->", target);
+					//Log.debug("stop ->", target);
 					_sunEventer.removeEventListener(ENTER_FRAME, target.runEvent);
 				}
 			}

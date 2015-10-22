@@ -45,13 +45,13 @@ package org.sdk.display.com
 			onStatus(NORMAL);
 		}
 		
-		override public function undepute():void 
+		override public function destroy():void 
 		{
 			this.removeEventListener(MouseEvent.MOUSE_OVER, onMouse);
 			this.removeEventListener(MouseEvent.MOUSE_OUT, onMouse);
 			this.removeEventListener(MouseEvent.MOUSE_DOWN, onAction);
 			this.removeEventListener(MouseEvent.MOUSE_UP, onAction);
-			super.undepute();
+			super.destroy();
 		}
 		
 		private function onMouse(event:MouseEvent):void

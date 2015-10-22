@@ -23,7 +23,7 @@ package org.sdk.display
 			if (null == dispaly) return;
 			if (value) {
 				if (dispaly is IObject) {
-					IObject(dispaly).undepute();
+					IObject(dispaly).destroy();
 				}else if (dispaly is Bitmap) {
 					cleanupBitmap(dispaly as Bitmap);
 				}else if (dispaly is Loader) {

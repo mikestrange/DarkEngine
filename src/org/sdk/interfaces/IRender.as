@@ -26,10 +26,6 @@ package org.sdk.interfaces
 		 * */
 		function isRender():Boolean;
 		/*
-		 * 复制
-		 * */
-		function clone():IRender;
-		/*
 		 * */
 		function cleanRender():void;
 		//ends

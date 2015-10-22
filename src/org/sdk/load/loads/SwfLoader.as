@@ -7,7 +7,6 @@ package org.sdk.load.loads
 	import flash.events.ProgressEvent;
 	import flash.net.URLRequest;
 	import flash.system.ApplicationDomain;
-	import org.sdk.debug.Log;
 	/**
 	 * 图像或者SWF
 	 */

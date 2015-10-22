@@ -8,7 +8,13 @@ package org.sdk.frame.made.wrapper
 	 * */
 	public class TrackWatcher
 	{
-		private var compare:Dictionary = new Dictionary;
+		private var compare:Dictionary;
+		
+		public function TrackWatcher()
+		{
+			compare = new Dictionary;
+		}
+		
 		/*
 		 * 添加一个监听
 		 * */

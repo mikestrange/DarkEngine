@@ -1,7 +1,6 @@
 package org.sdk.load 
 {
 	import flash.utils.Dictionary;
-	import org.sdk.debug.Log;
 	import org.sdk.load.loads.LoadManager;
 	/**
 	 * ...
@@ -41,7 +40,7 @@ package org.sdk.load
 				node = new NodeLoader(url, loader.priority);
 				_requests.push(node);
 				_queueMap[url] = node;
-				Log.debug("添加下载@", url);
+				//Log.debug("添加下载@", url);
 			}else {
 				node.setPriority(loader.priority);
 			}
@@ -72,9 +71,9 @@ package org.sdk.load
 		public function loadNext():void
 		{
 			if (isWaitEmpty()) {
-				Log.debug("等待下载列表为空,目前下载个数:", _loadLen);
+				//Log.debug("等待下载列表为空,目前下载个数:", _loadLen);
 			}else if (isLoadFull()) {
-				Log.debug("当前下载队列已满,目前等待下载个数:", _requests.length);
+				//Log.debug("当前下载队列已满,目前等待下载个数:", _requests.length);
 			}else {
 				const node:NodeLoader = _requests.shift();
 				if (isMap(node.url)) 
@@ -173,7 +172,7 @@ package org.sdk.load
 			if (node) {
 				_queueMap[url] = null;
 				delete _queueMap[url];
-				Log.debug("移除下载@", url);
+				//Log.debug("移除下载@", url);
 				if (node.isLoad()) loadLower();
 			}
 			return node;

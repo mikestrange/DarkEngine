@@ -1,17 +1,16 @@
 package  
 {
 	import com.greensock.TweenLite;
-	
 	import flash.text.TextField;
-	
 	import org.sdk.AppWork;
-	import org.sdk.display.BaseScene;
+	import org.sdk.display.com.selector.SelectedController;
+	import org.sdk.display.KindScene;
 	import org.sdk.display.DelegateDefined;
 	import org.sdk.display.com.Image;
 	import org.sdk.display.com.KindButton;
 	import org.sdk.display.com.interfaces.ITableViewDelegate;
-	import org.sdk.display.com.scroll.Cell;
-	import org.sdk.display.com.scroll.TableView;
+	import org.sdk.display.com.item.Cell;
+	import org.sdk.display.com.TableView;
 	import org.sdk.display.core.KindMap;
 	import org.sdk.effects.DisplayEffects;
 	import org.sdk.interfaces.INodeDisplay;
@@ -24,9 +23,8 @@ package
 	 * ...
 	 * @author Mike email:542540443@qq.com
 	 */
-	public class TestScene extends BaseScene implements IKeyDelegate, ITableViewDelegate
+	public class TestScene extends KindScene implements IKeyDelegate, ITableViewDelegate
 	{
-		
 		override public function onEnter(data:* = undefined):void 
 		{
 			super.onEnter(data);
@@ -49,7 +47,6 @@ package
 			//
 			KeyManager.setEnabled(true);
 			KeyManager.addKeyListener(this);
-			//
 		}
 		
 		public function rowHandler():int
@@ -82,7 +79,7 @@ package
 			table.setPosition(100,100);
 			table.delegate = this;
 			table.reallocated();
-			this.addNodeDisplay(table);
+			this.addNodeDisplay(table,0);
 		}
 		
 		override public function applyHandler(notice:String, target:Object=null):void

@@ -74,10 +74,10 @@ package org.sdk.display.com
 			}
 		}
 		
-		override public function undepute():void 
+		override public function destroy():void 
 		{
 			this.unload();
-			super.undepute();
+			super.destroy();
 		}
 		//end
 	}

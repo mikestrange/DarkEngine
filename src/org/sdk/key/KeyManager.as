@@ -1,6 +1,6 @@
 package org.sdk.key 
 {
-	import flash.utils.*;
+	import flash.utils.Dictionary;
 	import flash.events.KeyboardEvent;
 	import org.sdk.AppWork;
 	

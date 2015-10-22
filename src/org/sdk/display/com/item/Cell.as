@@ -1,5 +1,4 @@
-package org.sdk.display.com.scroll 
-{
+package org.sdk.display.com.item {
 	import org.sdk.display.core.KindSprite;
 	/**
 	 * 一个小块

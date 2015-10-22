@@ -1,13 +1,14 @@
-package org.sdk.display.com.scroll 
+package org.sdk.display.com 
 {
 	import flash.display.Shape;
 	import flash.display.Sprite;
 	import flash.events.MouseEvent;
 	import flash.utils.getTimer;
+	import org.sdk.display.com.item.Cell;
+	
 	import org.sdk.AppWork;
 	import org.sdk.classes.common.MapInteger;
 	import org.sdk.display.core.KindSprite;
-	import org.sdk.interfaces.IBaseSprite;
 	import org.sdk.display.com.interfaces.ITableViewDelegate;
 	/**
 	 * 拉动组件
@@ -34,7 +35,7 @@ package org.sdk.display.com.scroll
 		private var _spaceList:Vector.<Number>;
 		//
 		private var _cellMap:MapInteger;
-		private var _content:IBaseSprite;
+		private var _content:KindSprite;
 		private var _mask:Shape;
 		
 		public function TableView(wide:Number = 0, high:Number = 0)
@@ -270,10 +271,10 @@ package org.sdk.display.com.scroll
 			return this.delegate as ITableViewDelegate;
 		}
 		
-		override public function undepute():void
+		override public function destroy():void
 		{
 			this.removeListener();
-			super.undepute();
+			super.destroy();
 		}
 		
 		//ends

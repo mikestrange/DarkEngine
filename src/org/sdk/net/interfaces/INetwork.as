@@ -1,11 +1,11 @@
 package org.sdk.net.interfaces 
 {
-	
+	import org.sdk.interfaces.IObject;
 	/**
-	 * ...
+	 * 网络基类
 	 * @author Mike email:542540443@qq.com
 	 */
-	public interface INet 
+	public interface INetwork extends IObject
 	{
 		/*
 		 * 代理发送
@@ -19,10 +19,6 @@ package org.sdk.net.interfaces
 		 * 关闭，中断
 		 * */
 		function close():void;
-		/*
-		 * 回执处理的函数
-		 * */
-		function set respondHandler(value:Function):void;
 		//ends
 	}
 	

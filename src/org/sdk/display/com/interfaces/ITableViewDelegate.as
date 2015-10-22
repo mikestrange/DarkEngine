@@ -1,9 +1,8 @@
 package org.sdk.display.com.interfaces 
 {
-	import org.sdk.display.com.scroll.Cell;
-	import org.sdk.display.com.scroll.TableView;
+	import org.sdk.display.com.item.Cell;
+	import org.sdk.display.com.TableView;
 	import org.sdk.interfaces.IDelegate;
-	
 	/**
 	 * ...
 	 * @author Mike email:542540443@qq.com
