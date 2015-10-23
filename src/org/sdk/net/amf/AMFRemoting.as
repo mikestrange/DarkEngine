@@ -6,7 +6,7 @@ package org.sdk.net.amf
 	import flash.net.ObjectEncoding;
 	import flash.net.Responder;
 	/**
-	 * AMF协议
+	 * AMF协议,很少用，所以现在不对他做好的委托处理
 	 * @author Mike email:542540443@qq.com
 	 */
 	public class AMFRemoting extends NetConnection

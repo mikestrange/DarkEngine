@@ -16,20 +16,11 @@ package org.sdk.net.https
 		//
 		private var isOver:Boolean;
 		private var loader:URLLoader;
-		private var serverUrl:String;
 		private var handList:Vector.<INetHandler>;
 		
-		public function NetHttps(server:String = null) 
+		public function NetHttps() 
 		{
-			if (server) {
-				serverUrl = server;
-			}
 			initialize();
-		}
-		
-		public function getAddress():String
-		{
-			return serverUrl;
 		}
 		
 		public function close():void
@@ -39,6 +30,7 @@ package org.sdk.net.https
 			}catch (e:Error) {
 				trace('http未开始请求的断开');
 			}finally {
+				isOver = true;
 				while (handList.length) {
 					handList.shift();
 				}
@@ -58,17 +50,17 @@ package org.sdk.net.https
 		{
 			const result:HttpHandler = handList.shift();
 			trace("Error for Http 404:请确保连接上了后台,未知端口！ url:" + result.url);
-			sendNext();
+			nextHandler();
 			result.action();
 		}
 		
 		protected function onCompleteHandler(event:Event):void
 		{
-			trace("->回执数据是:" + event.target.data);
+			trace("-<<recv https:" + event.target.data);
 			//com.adobe.serialization.json.JSON.decode(e.target.data as String);
 			const result:HttpHandler = handList.shift();
 			result.result = event.target.data;
-			sendNext();
+			nextHandler();
 			//处理
 			result.action();
 		}
@@ -76,54 +68,33 @@ package org.sdk.net.https
 		/* INTERFACE org.web.sdk.net.interfaces.INetwork */
 		public function sendRequest(request:INetRequest, data:Object = null):void
 		{
-			//头处理
-			if (request) request.feedback(this, data);
-			//发送
-			var url:String = getAddress();
-			if (url.indexOf("?") == -1) url += "?";
-			//send
-			if (data)
-			{
-				var called:Function;
-				var args:*;
-				var key:*;
-				var item:*;
-				for (key in data)
-				{
-					item = data[key];
-					if (null != item && undefined != item && (item is Number || item is String || item is Boolean))
-					{
-						url += (item is Number && isNaN(item))?("&" + key + "=0"):("&" + key + "=" + item);
-					}
-				}
-				called = data["complete"];
-				args = data["args"];
-				this.flushPacker(new HttpHandler(url, called, args));
+			if (request){
+				request.feedback(this, data);
 			}
 		}
 		
 		/*
-		 * 真正发送的地方
+		 * 真正发送的地方 INetHandler
 		 * */
 		public function flushPacker(data:*= undefined):void
 		{
 			handList.push(data as INetHandler);
-			if (!isOver) {
-				sendNext();
-			}
+			if (isOver) nextHandler();
 		}
 		
-		protected function sendNext():void
+		//处理下一个
+		protected function nextHandler():void
 		{
 			if (handList.length) {
-				isOver = true;
+				isOver = false;
 				const result:HttpHandler = handList[_ZERO_] as HttpHandler;
 				const request:URLRequest = new URLRequest(result.url);
 				//request.data = data;
 				request.method = URLRequestMethod.GET;
 				loader.load(request);
+				trace("->>send https:",result.url);
 			}else {
-				isOver = false;
+				isOver = true;
 			}
 		}
 		

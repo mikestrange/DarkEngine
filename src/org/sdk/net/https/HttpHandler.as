@@ -25,11 +25,6 @@ package org.sdk.net.https
 			return _url;
 		}
 		
-		public function set result(value:*):void
-		{
-			_data = value;
-		}
-		
 		public function get result():*
 		{
 			return _data;
@@ -40,12 +35,18 @@ package org.sdk.net.https
 			return _args;
 		}
 		
+		public function set result(value:*):void
+		{
+			_data = value;
+		}
+		
 		/* INTERFACE org.sdk.net.interfaces.INetHandler */
 		public function action():void 
 		{
+			//如果数据太复杂，建议this＝MessageVo
 			if (_handler is Function)
 			{
-				_handler(this);
+				_handler(this); 
 			}
 		}
 		

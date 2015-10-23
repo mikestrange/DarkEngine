@@ -1,22 +1,26 @@
 package  
 {
 	import com.greensock.TweenLite;
+	
 	import flash.text.TextField;
+	
 	import org.sdk.AppWork;
-	import org.sdk.display.com.selector.SelectedController;
-	import org.sdk.display.KindScene;
 	import org.sdk.display.DelegateDefined;
+	import org.sdk.display.KindScene;
 	import org.sdk.display.com.Image;
 	import org.sdk.display.com.KindButton;
+	import org.sdk.display.com.TableView;
 	import org.sdk.display.com.interfaces.ITableViewDelegate;
 	import org.sdk.display.com.item.Cell;
-	import org.sdk.display.com.TableView;
+	import org.sdk.display.com.selector.SelectedController;
 	import org.sdk.display.core.KindMap;
 	import org.sdk.effects.DisplayEffects;
 	import org.sdk.interfaces.INodeDisplay;
 	import org.sdk.key.IKeyDelegate;
 	import org.sdk.key.KeyEvent;
 	import org.sdk.key.KeyManager;
+	import org.sdk.net.https.HttpRequest;
+	import org.sdk.net.https.NetHttps;
 	import org.sdk.utils.display.TransformUtil;
 	
 	/**
@@ -47,6 +51,12 @@ package
 			//
 			KeyManager.setEnabled(true);
 			KeyManager.addKeyListener(this);
+			//
+			var net:NetHttps = new NetHttps;
+			net.sendRequest(new HttpRequest("http://127.0.0.1/"));
+			net.sendRequest(new HttpRequest("http://127.0.0.1/"));
+			net.sendRequest(new HttpRequest("http://127.0.0.1/"));
+			net.sendRequest(new HttpRequest("http://127.0.0.1/"));
 		}
 		
 		public function rowHandler():int
@@ -80,6 +90,7 @@ package
 			table.delegate = this;
 			table.reallocated();
 			this.addNodeDisplay(table,0);
+			//
 		}
 		
 		override public function applyHandler(notice:String, target:Object=null):void
