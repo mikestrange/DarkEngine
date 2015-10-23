@@ -1,10 +1,13 @@
 package org.sdk.net.https 
 {
 	import flash.events.Event;
+	import flash.events.HTTPStatusEvent;
 	import flash.events.IOErrorEvent;
+	import flash.events.SecurityErrorEvent;
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
 	import flash.net.URLRequestMethod;
+	
 	import org.sdk.interfaces.DelegateObject;
 	import org.sdk.net.interfaces.INetHandler;
 	import org.sdk.net.interfaces.INetRequest;
@@ -49,8 +52,9 @@ package org.sdk.net.https
 		protected function onErrorHandler(e:IOErrorEvent):void
 		{
 			const result:HttpHandler = handList.shift();
-			trace("Error for Http 404:请确保连接上了后台,未知端口！ url:" + result.url);
+			trace("Error for Http 404:请确保连接上了后台,未知端口！ url:" + result.url,"errID:",e.errorID);
 			nextHandler();
+			//这里设置一个错误状态
 			result.action();
 		}
 		
@@ -60,6 +64,7 @@ package org.sdk.net.https
 			//com.adobe.serialization.json.JSON.decode(e.target.data as String);
 			const result:HttpHandler = handList.shift();
 			result.result = event.target.data;
+			//发送下一个
 			nextHandler();
 			//处理
 			result.action();
@@ -98,17 +103,41 @@ package org.sdk.net.https
 			}
 		}
 		
-		//删除所有
+		//删除所有相同的url
 		public function remove(url:String):void
 		{
 			if (handList.length) {
-				//当前不会被删除
-				for (var i:int = handList.length - 1; i > _ZERO_; i--) 
+				//当前不会被删除,但是当前的回调会被撤销
+				for (var i:int = handList.length - 1; i >= _ZERO_; i--) 
 				{
 					const result:HttpHandler = handList[i] as HttpHandler;
 					if (result.url == url) 
 					{
-						handList.splice(i, 1);
+						if(i==_ZERO_){
+							result.free();
+						}else{
+							handList.splice(i, 1);
+						}
+					}
+				}
+			}
+		}
+		
+		//删除对应的回调
+		public function removeMethod(method:Function):void
+		{
+			if (handList.length) {
+				//当前不会被删除,但是当前的回调会被撤销
+				for (var i:int = handList.length - 1; i >= _ZERO_; i--) 
+				{
+					const result:HttpHandler = handList[i] as HttpHandler;
+					if (result.handler == method) 
+					{
+						if(i==_ZERO_){
+							result.free();
+						}else{
+							handList.splice(i, 1);
+						}
 					}
 				}
 			}
