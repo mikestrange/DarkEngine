@@ -5,35 +5,38 @@ package org.sdk.net.https
 	
 	public class HttpRequest implements INetRequest
 	{
-		private var _rootUrl:String;
-		private var _called:Function;
-		private var _args:*;
+		private var _url:String;
 		
-		public function HttpRequest(rootUrl:String, called:Function = null, args:* = undefined)
+		public function HttpRequest(url:String)
 		{
-			this._rootUrl = rootUrl;
-			this._called = called;
-			this._args = args;
+			this._url = url;
 		}
 		
-		public function get args():*
+		public function get url():String
 		{
-			return _args;
+			return _url;
 		}
 		
-		public function getAddress():String
-		{
-			return _rootUrl;
-		}
-		
-		//这里只是一种协议的处理
+		//这里只是一种协议的封装过程
 		public function feedback(net:INetwork, data:Object=null):void
 		{
-			var url:String = getAddress();
+			//这里最终要的只是［HttpHandler］
+			if(data)
+			{
+				net.flushPacker(new HttpHandler(url, data["complete"], data["params"]));
+			}else{
+				net.flushPacker(new HttpHandler(url));
+			}	
+		}
+		
+		//static转换
+		public static function getURLByObject(rootUrl:String, data:Object = null):String
+		{
+			var file:String = rootUrl;
 			//send
 			if (data)
 			{
-				if (url.indexOf("?") == -1) url += "?";
+				if (file.indexOf("?") == -1) file += "?";
 				var key:*;
 				var item:*;
 				for (key in data)
@@ -41,14 +44,12 @@ package org.sdk.net.https
 					item = data[key];
 					if (null != item && undefined != item && (item is Number || item is String || item is Boolean))
 					{
-						url += (item is Number && isNaN(item))?("&" + key + "=0"):("&" + key + "=" + item);
+						file += (item is Number && isNaN(item))?("&" + key + "=0"):("&" + key + "=" + item);
 					}
 				}
 			}
-			//
-			net.flushPacker(new HttpHandler(url, _called, _args));
+			return file;
 		}
-		
 		//ends
 	}
 }

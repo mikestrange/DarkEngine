@@ -56,7 +56,7 @@ package
 			net.sendRequest(new HttpRequest("http://127.0.0.1/"));
 			net.sendRequest(new HttpRequest("http://127.0.0.1/"));
 			net.sendRequest(new HttpRequest("http://127.0.0.1/"));
-			net.sendRequest(new HttpRequest("http://127.0.0.1/"));
+			net.sendRequest(new HttpRequest("http://127.0.0.2/"));
 		}
 		
 		public function rowHandler():int
