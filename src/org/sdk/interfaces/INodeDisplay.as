@@ -57,6 +57,7 @@ package org.sdk.interfaces
 		 * 父对象
 		 * */
 		function getKindFather():IKindSprite;
+		
 		//ends
 	}
 	
