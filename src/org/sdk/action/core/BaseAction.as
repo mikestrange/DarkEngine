@@ -1,11 +1,10 @@
 package org.sdk.action.core 
 {
 	import flash.utils.getTimer;
-	import org.sdk.action.IActionHandler;
 	import org.sdk.engine.Running;
 	import org.sdk.utils.easing.EaseLookup;
 	
-	public class BaseAction extends Running implements IActionHandler
+	public class BaseAction extends Running
 	{
 		//默认延迟
 		public static const DEF_DELAY:int = 0;

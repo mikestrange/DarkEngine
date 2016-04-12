@@ -5,7 +5,7 @@ package org.sdk.interfaces
 	public interface IKinetoplast
 	{
 		/*
-		* 执行动作,不必在意动作的具体动作
+		* 执行动作,不必在意动作的具体动作(没有名称的使用自身默认名称)
 		* */
 		function runAction(action:IActionHandler,name:String=null):void;
 		/*
