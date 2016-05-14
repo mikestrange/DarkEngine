@@ -71,7 +71,7 @@ package org.sdk.manager {
 		{
 			var ref:IRefObject = getRef(name);
 			if (ref) {
-				target.washRender(ref);
+				target.washRender(ref, data);
 			}else {
 				ref = target.getFailedHandler(name, data);
 				if (ref) target.washRender(ref);

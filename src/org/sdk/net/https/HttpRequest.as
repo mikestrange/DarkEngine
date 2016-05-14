@@ -23,9 +23,9 @@ package org.sdk.net.https
 			//这里最终要的只是［HttpHandler］
 			if(data)
 			{
-				net.flushPacker(new HttpHandler(url, data["complete"], data["params"]));
+				net.flushPacker(new HttpRespond(url, data["onComplete"], data["args"]));
 			}else{
-				net.flushPacker(new HttpHandler(url));
+				net.flushPacker(new HttpRespond(url));
 			}	
 		}
 		

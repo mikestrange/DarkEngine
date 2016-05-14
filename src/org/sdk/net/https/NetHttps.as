@@ -51,23 +51,22 @@ package org.sdk.net.https
 		
 		protected function onErrorHandler(e:IOErrorEvent):void
 		{
-			const result:HttpHandler = handList.shift();
+			const result:HttpRespond = handList.shift();
 			trace("Error for Http 404:请确保连接上了后台,未知端口！ url:" + result.url,"errID:",e.errorID);
 			nextHandler();
 			//这里设置一个错误状态
-			result.action();
+			result.action(null, -1);
 		}
 		
 		protected function onCompleteHandler(event:Event):void
 		{
-			trace("-<<recv https:" + event.target.data);
 			//com.adobe.serialization.json.JSON.decode(e.target.data as String);
-			const result:HttpHandler = handList.shift();
-			result.result = event.target.data;
+			const result:HttpRespond = handList.shift();
+			trace("##recv https:", result.url);
 			//发送下一个
 			nextHandler();
 			//处理
-			result.action();
+			result.action(event.target.data);
 		}
 		
 		/* INTERFACE org.web.sdk.net.interfaces.INetwork */
@@ -92,12 +91,12 @@ package org.sdk.net.https
 		{
 			if (handList.length) {
 				isOver = false;
-				const result:HttpHandler = handList[_ZERO_] as HttpHandler;
+				const result:HttpRespond = handList[_ZERO_] as HttpRespond;
 				const request:URLRequest = new URLRequest(result.url);
 				//request.data = data;
 				request.method = URLRequestMethod.GET;
 				loader.load(request);
-				trace("->>send https:",result.url);
+				trace("##send https:",result.url);
 			}else {
 				isOver = true;
 			}
@@ -110,7 +109,7 @@ package org.sdk.net.https
 				//当前不会被删除,但是当前的回调会被撤销
 				for (var i:int = handList.length - 1; i >= _ZERO_; i--) 
 				{
-					const result:HttpHandler = handList[i] as HttpHandler;
+					const result:HttpRespond = handList[i] as HttpRespond;
 					if (result.url == url) 
 					{
 						if(i==_ZERO_){
@@ -130,7 +129,7 @@ package org.sdk.net.https
 				//当前不会被删除,但是当前的回调会被撤销
 				for (var i:int = handList.length - 1; i >= _ZERO_; i--) 
 				{
-					const result:HttpHandler = handList[i] as HttpHandler;
+					const result:HttpRespond = handList[i] as HttpRespond;
 					if (result.handler == method) 
 					{
 						if(i==_ZERO_){

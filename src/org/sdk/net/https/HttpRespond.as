@@ -6,7 +6,7 @@ package org.sdk.net.https
 	 * ...
 	 * @author Mike email:542540443@qq.com
 	 */
-	public class HttpHandler implements INetHandler 
+	public class HttpRespond implements INetHandler 
 	{
 		private var _url:String;
 		private var _status:int = 0;
@@ -14,7 +14,7 @@ package org.sdk.net.https
 		private var _data:*= undefined;
 		private var _args:*= undefined;
 		
-		public function HttpHandler(url:String, handler:Function = null, args:* = undefined) 
+		public function HttpRespond(url:String, handler:Function = null, args:* = undefined) 
 		{
 			_url = url;
 			_handler = handler;
@@ -62,8 +62,10 @@ package org.sdk.net.https
 		}
 		
 		/* INTERFACE org.sdk.net.interfaces.INetHandler */
-		public function action():void 
+		public function action(data:* = undefined, code:int = 0):void 
 		{
+			_data = data;
+			_status = code;
 			//如果数据太复杂，建议this＝MessageVo
 			if (_handler is Function)
 			{

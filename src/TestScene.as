@@ -13,7 +13,7 @@ package
 	import org.sdk.display.com.interfaces.ITableViewDelegate;
 	import org.sdk.display.com.item.Cell;
 	import org.sdk.display.com.selector.SelectedController;
-	import org.sdk.display.core.KindMap;
+	import org.sdk.display.core.KindNode;
 	import org.sdk.effects.DisplayEffects;
 	import org.sdk.interfaces.INodeDisplay;
 	import org.sdk.key.IKeyDelegate;
@@ -22,6 +22,7 @@ package
 	import org.sdk.net.https.HttpRequest;
 	import org.sdk.net.https.NetHttps;
 	import org.sdk.utils.display.TransformUtil;
+	import org.sdk.net.https.HttpRespond;
 	
 	/**
 	 * ...
@@ -32,7 +33,7 @@ package
 		override public function onEnter(data:* = undefined):void 
 		{
 			super.onEnter(data);
-			var mit:KindMap = new KindMap("btn_b_down");
+			var mit:KindNode = new KindNode("btn_b_down");
 			mit.setSize(mit.width, mit.height);
 			this.addNodeDisplay(mit);
 			mit.setPosition(100,20);
@@ -40,7 +41,7 @@ package
 			const g2:Image = new Image("http://passport.lagou.com/lp/images/position/souhu.png");
 			g2.setTag(2);
 			g2.delegate = this;
-			g2.setPosition(100,100);
+			g2.setPosition(200,100);
 			this.addNodeDisplay(g2);
 			//
 			var btn:KindButton = new KindButton();
@@ -53,10 +54,15 @@ package
 			KeyManager.addKeyListener(this);
 			//
 			var net:NetHttps = new NetHttps;
-			net.sendRequest(new HttpRequest("http://127.0.0.1/"));
-			net.sendRequest(new HttpRequest("http://127.0.0.1/"));
+			net.sendRequest(new HttpRequest("http://1127.0.0.1/"),{"onComplete":onRequest});
+			net.sendRequest(new HttpRequest("http://127.0.0.1/"),{"onComplete":onRequest});
 			net.sendRequest(new HttpRequest("http://127.0.0.1/"));
 			net.sendRequest(new HttpRequest("http://127.0.0.2/"));
+		}
+		
+		private function onRequest(event:HttpRespond):void
+		{
+			//trace(event.status,event.result);	
 		}
 		
 		public function rowHandler():int
@@ -72,7 +78,7 @@ package
 		public function rollHandler(table:TableView, floor:int):Cell
 		{
 			const cell:Cell = table.getQueue(floor);
-			var a:KindMap = new KindMap("btn_b_down");
+			var a:KindNode = new KindNode("btn_b_down");
 			a.setSize(a.width, a.height);
 			cell.addNodeDisplay(a);
 			var text:TextField = new TextField;

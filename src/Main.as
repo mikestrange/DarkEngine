@@ -19,7 +19,7 @@ package
 	import org.sdk.display.core.KindSprite;
 	import org.sdk.display.com.Image;
 	import org.sdk.display.com.Image;
-	import org.sdk.display.core.KindMap;
+	import org.sdk.display.core.KindNode;
 	import org.sdk.engine.MotivePower;
 	import org.sdk.AppWork;
 	import org.sdk.interfaces.IRender;

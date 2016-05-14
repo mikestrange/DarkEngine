@@ -20,7 +20,7 @@ package org.sdk.interfaces
 		/*
 		 * 设置材质，直接设置不会有问题
 		 * */
-		function washRender(target:IRefObject):void;
+		function washRender(target:IRefObject, data:Object = null):void;
 		/*
 		 * 是否渲染，也就是否有材质
 		 * */

@@ -7,7 +7,7 @@ package org.sdk.net.interfaces
 	 */
 	public interface INetHandler 
 	{
-		function action():void;
+		function action(data:* = undefined, code:int = 0):void;
 		//ends
 	}
 	

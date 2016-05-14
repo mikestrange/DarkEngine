@@ -2,11 +2,12 @@ package org.sdk.display.core
 {
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
+	
+	import org.sdk.interfaces.IDelegate;
 	import org.sdk.interfaces.IObject;
 	import org.sdk.interfaces.IRefObject;
 	import org.sdk.interfaces.IRender;
 	import org.sdk.manager.RefManager;
-	import org.sdk.interfaces.IDelegate;
 	
 	/**
 	 * 这个只是贴图，不存在任何,作为私有
@@ -25,10 +26,15 @@ package org.sdk.display.core
 		
 		protected function setTexture(target:*):void
 		{
+			if(target == null) return;
 			if (target is BitmapData) {
 				this.bitmapData = target;
-				this.smoothing = true;
+			}else if(target is Bitmap){
+				this.bitmapData = Bitmap(target).bitmapData;
+			}else{
+				this.bitmapData = target["bitmapData"];
 			}
+			this.smoothing = true;
 		}
 		
 		final protected function hasRef(name:String):Boolean
@@ -53,15 +59,22 @@ package org.sdk.display.core
 			return null;
 		}
 		
-		public function washRender(target:IRefObject):void 
+		public function washRender(target:IRefObject, data:Object = null):void 
 		{
 			if (target && target != _ref) 
 			{
 				target.ration();
 				if (_ref) _ref.release();
 				_ref = target;
-				setTexture(_ref.target);
+				//setTexture(_ref.target);
+				updateRender(_ref.target, data);
 			}
+		}
+		
+		//子类重写
+		protected function updateRender(target:*, data:Object):void
+		{
+			
 		}
 		
 		public function isRender():Boolean 

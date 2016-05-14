@@ -15,13 +15,13 @@ package org.sdk.display.core
 	 * ...
 	 * @author Mike email:542540443@qq.com
 	 */
-	public class KindMap extends MapSheet implements INodeDisplay 
+	public class KindNode extends MapSheet implements INodeDisplay 
 	{
 		private var _tag:int;
 		private var _sizeWidth:Number;
 		private var _sizeHeight:Number;
 		
-		public function KindMap(res:String=null) 
+		public function KindNode(res:String=null) 
 		{
 			super(res);	
 		}
@@ -31,6 +31,12 @@ package org.sdk.display.core
 			const bit:BitmapData = AppWork.getObject(name) as BitmapData;
 			if (bit) return new RefObject(name, bit);
 			return super.getFailedHandler(name, data);
+		}
+		
+		//直接渲染
+		override protected function updateRender(target:*, data:Object):void
+		{
+			this.setTexture(target);
 		}
 		
 		/* INTERFACE org.sdk.interfaces.INodeDisplay */

@@ -3,7 +3,7 @@ package org.sdk.display.com
 	import flash.display.BitmapData;
 	
 	import org.sdk.display.DelegateDefined;
-	import org.sdk.display.core.KindMap;
+	import org.sdk.display.core.KindNode;
 	import org.sdk.interfaces.IRefObject;
 	import org.sdk.load.DownLoader;
 	import org.sdk.load.LoadEvent;
@@ -12,7 +12,7 @@ package org.sdk.display.com
 	/*
 	 * 不作为INode
 	 * */
-	public class Image extends KindMap 
+	public class Image extends KindNode 
 	{
 		private var _loader:DownLoader;
 		
